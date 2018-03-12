@@ -1,0 +1,110 @@
+<!-- <mat-toolbar color="primary">
+    <button mat-mini-fab class="example-fab" (click)="leftPanel.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>&nbsp;Xanadu 2.1</span>
+    <span class="example-spacer">{{clickedUrlValue}}</span>
+    <span>{{currentRaster}}</span>
+    <mat-icon class="header-icon" (click)="rightPanel.toggle()">map</mat-icon>
+</mat-toolbar> -->
+
+<mat-sidenav-container>
+    <mat-sidenav #leftPanel mode="slide" opened="false">
+        <div class="leftpanel-scrolling-content">
+            <p>
+                <mat-slide-toggle class="setting-slider" [checked]="showStartingDeeds" (click)="toggleLayer($event, 'Starter Deeds Layer')">
+                    <mat-icon class="slide-icon">account_balance</mat-icon>Startin' Towns
+                </mat-slide-toggle>
+            </p>
+            <p>
+                <mat-slide-toggle class="setting-slider" [checked]="showDeeds" (click)="toggleLayer($event, 'Deeds Layer')">
+                    <i class="material-icons slide-icon">local_play</i>Deeds
+                </mat-slide-toggle>
+            </p>
+            <p>
+                <mat-slide-toggle class="setting-slider" [checked]="showBridges" (click)="toggleLayer($event, 'Bridge Layer')">
+                    <i class="material-icons slide-icon">panorama_horizontal</i>Bridges
+                </mat-slide-toggle>
+            </p>
+            <p>
+                <mat-slide-toggle class="setting-slider" [checked]="showCanals" (click)="toggleLayer($event, 'Canal Layer')">
+                    <i class="material-icons slide-icon">compare_arrows</i>Canals
+                </mat-slide-toggle>
+            </p>
+            <!-- <p>
+                <mat-slide-toggle class="setting-slider" [checked]="true" (click)="toggleLayer($event, 'Guard Tower Layer')">
+                    <i class="material-icons slide-icon">adjust</i>Landmarks
+                </mat-slide-toggle>
+            </p> -->
+            <p>
+                <mat-slide-toggle class="setting-slider" [checked]="showGrid" (click)="toggleLayer($event, 'Grid Layer')">
+                    <i class="material-icons slide-icon">grid_on</i>Grid
+                </mat-slide-toggle>
+            </p>
+            <h6>2016 Nov Layers</h6>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle value="Terrain" (click)="mainLayer(0)" title="View terrain layer">
+                    <mat-icon>explore</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="Isometric" (click)="mainLayer(1)" title="View isometric layer">
+                    <mat-icon>pregnant_woman</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="Topological" (click)="mainLayer(2)" title="View topological layer">
+                    <mat-icon>rounded_corner</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <h6>2017 Aug Layers</h6>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+                <mat-button-toggle value="Terrain" (click)="mainLayer(3)" title="View terrain layer">
+                    <mat-icon>explore</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="Isometric" (click)="mainLayer(4)" title="View isometric layer">
+                    <mat-icon>pregnant_woman</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="Topological" (click)="mainLayer(5)" title="View topological layer">
+                    <mat-icon>rounded_corner</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <p>
+                <mat-select *ngIf="deeds != null" placeholder="Find a Deed">
+                    <mat-option *ngFor="let deed of deeds; let i = index;" [value]="deed.ID" (click)="gotoDeed($event, i)">
+                        {{ deed.Name }}
+                    </mat-option>
+                </mat-select>
+            </p>
+            
+        </div>
+    </mat-sidenav>
+
+    <mat-sidenav #rightPanel mode="slide" align="end" opened="false">
+        <div class="rightpanel-scrolling-content">
+            <p class="color-picker" [ngStyle]="{ 'background-color': deedColor }">
+                <mat-select placeholder="Deed Color" [(value)]="deedColor">
+                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setDeedColor(color.code)">{{ color.name }}</mat-option>
+                </mat-select>
+            </p>
+            <p class="color-picker" [ngStyle]="{ 'background-color': canalColor }">
+                <mat-select placeholder="Tunnel/Canal Color" [(value)]="canalColor">
+                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setCanalColor(color.code)">{{ color.name }}</mat-option>
+                </mat-select>
+            </p>
+            <p class="color-picker" [ngStyle]="{ 'background-color': bridgeColor }">
+                <mat-select placeholder="Bridge Color" [(value)]="bridgeColor">
+                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setBridgeColor(color.code)">{{ color.name }}</mat-option>
+                </mat-select>
+            </p>
+            <div class="color-panel">
+                <h2>Color Samples</h2>
+                <div class="color-chit" *ngFor="let color of customColors" [ngStyle]="{ 'background-color': color.code }">&nbsp;<span>{{color.name}}</span></div>
+            </div>
+        </div>
+    </mat-sidenav>
+
+    
+
+</mat-sidenav-container>
+
+<div #mapElement id="map" class="map">
+</div>

@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html {
+  font-family: sans-serif;
+}
+
+html, body, .map {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.header-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.ol-mouse-position {
+    top: 15px;
+    right: 58px;
+    position: absolute;
+    color: white;
+    /* z-index: 100000; */
+}
+
+.actions {
+    position: absolute;
+    top: 95px;
+    left: 10px;
+    z-index: 10000;
+}
+
+.rotate-north {
+    top: 65px;
+    left: .5em;
+  }
+  .ol-touch .rotate-north {
+    top: 80px;
+  }

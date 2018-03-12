@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="row">
+        <p>
+            <span>Disclaimer: </span>The Wurm Online Maps (dot com) is NOT a project of Code Club AB, wurmonline.com, or its affiliates.
+            (Heck, we're not even Swedish!)</p>
+    </div>
+
+    <h3>Coordinates</h3>
+    <div class="row">
+
+        <p>
+            Our maps derive their coordinates from the
+            <a href="https://en.wikipedia.org/wiki/Cartesian_coordinate_system">Cartesian Coordinate System</a>. We don't put Descartes before the horse.: (1)
+
+        </p>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="/assets/Cartesian-coordinate-system.svg.png" />
+        </div>
+        <div class="col-md-8">
+            <div>
+                In essence, our maps start in the upper left hand corner at (0, 0), then go across the X-axis and down the Y-axis. Hence
+                the (+X, -Y) system.
+            </div>
+            <br />
+            <div>
+                In fact, your deed marker coordinates occupy a specific tile in the WO database based on the same coordinate system we are
+                laying our here:
+            </div>
+            <br />
+            <div>
+                <span style="font-style:italic">Some coordinate math:</span> Xanadu is 32km by 32km in size. We know that in Wurm one tile is 4 meter square.
+                1km is then 250 tiles, and 32km is 8,000 tiles, right?
+            </div>
+            <br />
+            <div>
+                <span style="font-style:oblique; font-weight: bold">Wrong, Charlie!</span> 1km in Wurm, based on the map dumps they are giving us, is 256 tiles per kilometer.
+                For Xanadu, 32km equals 8192 tiles.</div>
+            <br />
+            <div>The map dump for Xanadu is 8192 x 8192, and so our Xanadu map coordinates are are range from (0, -0) to (8192,
+                -8192).
+            </div>
+        </div>
+    </div>
+
+    <h3>To Dervive Your Coordinates</h3>
+    <div class="row">
+
+        <p>Your deed markers in our database are stored with X/Y coordinates. To find your coordinates:</p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <img src="/assets/YourCoords.PNG" />
+        </div>
+        <div class="col-md-8">
+            <p>Single click anywhere on the map. Your clicked map coordinates will appear in the lower left hand corner on your
+                screen.
+            </p>
+            <p>This will be your deed's coordinates throughout time, map dump to map dump.</p>
+            <p>To add, change, or delete records from the map, you have to post a request via the appropriate forum map thread.
+                (Find the thread in the Contacts section.)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>Technology</h3>
+        <div class="col-md-12">
+            <ul>
+                <li>Angular X, this was written with Typescript</li>
+                <li>OpenLayers3 zoomable/scrollable map with ZXY tiles</li>
+                <li>Custom SVG overlay</li>
+            </ul>
+            <p>
+                <span style="font-style:italic">Note about performance: </span>There are over 1,000 deeds in our database on Xanadu. Displaying 1,000+ deed
+                markers has proven to be problematic, due to SVG limitations. To help the preformance problem we are re-rendering
+                the SVG deed marker overlay with every scroll, drag, and zoom action, but, we only render those objects that
+                are calculated to be in view at the time. (The inital map display shows no markers.. Zoom in why don't ya!)</p>
+            <p>Performance is a lot better than what we started with: every map scroll, pan, and zoom used to invoke a method
+                that re-calculated the positions of every object in the overlay. This included deed rectagles, deed titles,
+                grid lines, and grid titles. We literally went from tens of thousands of tranactions with every map action
+                down to less than a thousand.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <h3>References</h3>
+        <div class="col-md-12">
+            (1) Sorry for the lame Frasier joke.
+        </div>
+    </div>
+
+    <hr />
+    <footer>
+        <p>2016 - 2018 by Jackjones (Xanadu) for WefNET</p>
+    </footer>
+
+</div>
