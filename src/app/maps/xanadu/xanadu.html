@@ -1,12 +1,12 @@
-<!-- <mat-toolbar color="primary">
-    <button mat-mini-fab class="example-fab" (click)="leftPanel.toggle()">
+<mat-toolbar color="primary">
+    <button mat-mini-fab class="example-fab" (click)="leftPanel.toggle()" title="Open left action panel">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>&nbsp;Xanadu 2.1</span>
+    <span>&nbsp;Xanadu 2.2</span>
     <span class="example-spacer">{{clickedUrlValue}}</span>
     <span>{{currentRaster}}</span>
-    <mat-icon class="header-icon" (click)="rightPanel.toggle()">map</mat-icon>
-</mat-toolbar> -->
+    <mat-icon class="header-icon" (click)="rightPanel.toggle()" title="Open left action panel">map</mat-icon>
+</mat-toolbar>
 
 <mat-sidenav-container>
     <mat-sidenav #leftPanel mode="slide" opened="false">
@@ -74,7 +74,7 @@
                     </mat-option>
                 </mat-select>
             </p>
-            
+
         </div>
     </mat-sidenav>
 
@@ -97,14 +97,15 @@
             </p>
             <div class="color-panel">
                 <h2>Color Samples</h2>
-                <div class="color-chit" *ngFor="let color of customColors" [ngStyle]="{ 'background-color': color.code }">&nbsp;<span>{{color.name}}</span></div>
+                <div class="color-chit" *ngFor="let color of customColors" [ngStyle]="{ 'background-color': color.code }">&nbsp;
+                    <span>{{color.name}}</span>
+                </div>
             </div>
         </div>
     </mat-sidenav>
 
-    
-
+    <mat-sidenav-content>
+        <div #mapElement id="map" class="map">
+        </div>
+    </mat-sidenav-content>
 </mat-sidenav-container>
-
-<div #mapElement id="map" class="map">
-</div>
