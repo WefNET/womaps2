@@ -282,7 +282,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 new ol.style.Style({
                     stroke: new ol.style.Stroke({
                         width: 11 / resolution,
-                        color: this.canalColor,
+                        color: "rgba(0, 191, 255, 0.4)",
                     }),
                     text: new ol.style.Text({
                         font: '' + fontSize + 'px Calibri,sans-serif',
@@ -290,8 +290,14 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         textBaseline: 'middle',
                         textAlign: 'center',
                         // offsetY: 12,
-                        fill: this.customStyles.defaultTextFill,
-                        stroke: this.customStyles.defaultTextStroke,
+                        fill:  new ol.style.Fill({
+                            // color: '#FFF'
+                            color: "White"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: 'Black',
+                            width: 1
+                        })
                     })
                 }),
 
@@ -639,7 +645,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.oldTopoRaster,
                 // roadLayer,
                 this.bridgeLayer,
-                // this.canalLayer,
+                this.canalLayer,
                 this.deedsLayer,
                 this.staringTownsLayer,
             ],
