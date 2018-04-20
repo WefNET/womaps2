@@ -9,9 +9,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { XanaduComponent } from './maps/xanadu/xanadu.component';
 
-import { LocalStorageModule } from 'angular-2-local-storage';
-import { LocalStorageService } from 'angular-2-local-storage';
-
 import { DeedsService } from './services/deeds.service';
 
 const appRoutes: Routes = [
@@ -31,10 +28,6 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    LocalStorageModule.withConfig({
-      prefix: 'wurm-maps',
-      storageType: 'localStorage'
-    }),
     MaterialModule,
     RouterModule.forRoot(
       appRoutes,
@@ -43,7 +36,6 @@ const appRoutes: Routes = [
   ],
   providers: [
     DeedsService,
-    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })
