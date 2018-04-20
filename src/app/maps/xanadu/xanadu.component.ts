@@ -3,15 +3,13 @@ import { HostListener, AfterContentInit, AfterViewInit, Component, ElementRef, V
 
 import { ActivatedRoute } from '@angular/router';
 
-import { LocalStorageService } from 'angular-2-local-storage';
-
 import { DeedsService } from './../../services/deeds.service';
 
 import { IDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData, CustomColors } from './../../app.models';
 
 // import { LandmarkLayer } from './layers/landmark.module'
 // import { RoadLayer } from './layers/road.module'
-// import { StartingDeedLayer } from './layers/starting-towns.module'
+import { StartingDeedLayer } from './layers/starting-towns.module'
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -65,7 +63,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     customColors: any[] = CustomColors;
     deedColor: string;
     canalColor: string;
-    bridgeColor: string;
+    bridgeColor: string = "rgba(255, 0, 255, 0.4)";
 
     showGrid: boolean = false;
     showDeeds: boolean = true;
@@ -158,7 +156,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         }
     }
 
-    constructor(private deedsService: DeedsService, public cacheMonster: LocalStorageService, private route: ActivatedRoute) {
+    constructor(private deedsService: DeedsService, private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -169,15 +167,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         this.pixelRatio = ol.has.DEVICE_PIXEL_RATIO;
 
         console.log("PixelRatio", this.pixelRatio);
-
-        let deedColorCache = this.cacheMonster.get<string>("deedColor");
-        this.deedColor = deedColorCache !== null ? deedColorCache : "rgba(255, 0, 0, 0.4)";
-
-        let canalColorCache = this.cacheMonster.get<string>("canalColor");
-        this.canalColor = canalColorCache !== null ? canalColorCache : "rgba(125, 125, 255, 0.4)";
-
-        let bridgeColorCache = this.cacheMonster.get<string>("bridgeColor");
-        this.bridgeColor = bridgeColorCache !== null ? bridgeColorCache : "rgba(179, 170, 0, 0.4)";
 
         this.route
             .queryParams
@@ -194,14 +183,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     }
 
     renderOpenLayers(data: ServerData): void {
-        console.log("Rendering function called");
+        // console.log("Rendering function called");
 
         this.deeds = data.Deeds;
         this.canals = data.Canals;
         this.bridges = data.Bridges;
         this.landmarks = data.Landmarks;
-
-        
 
         var controls = [
             // new ol.control.Attribution(),
@@ -226,7 +213,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 new ol.style.Style({
                     stroke: new ol.style.Stroke({
                         width: 8 / resolution,
-                        color: this.bridgeColor,
+                        color: "rgba(255, 0, 255, 0.4)",
                     }),
                     text: new ol.style.Text({
                         font: '' + fontSize + 'px Calibri,sans-serif',
@@ -234,8 +221,14 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         textBaseline: 'middle',
                         textAlign: 'center',
                         // offsetY: 12,
-                        fill: this.dFill,
-                        stroke: this.dText
+                        fill:  new ol.style.Fill({
+                            // color: '#FFF'
+                            color: "White"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: 'Black',
+                            width: 1
+                        })
                     })
                 }),
 
@@ -245,7 +238,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         var bridgeSources = new ol.source.Vector();
 
         for (let bridge of this.bridges) {
-            console.log("Rendering bridge:", bridge);
+            // console.log("Rendering bridge:", bridge);
 
             var bridgeFeature = new ol.Feature({
                 geometry: new ol.geom.LineString([[bridge.X1, bridge.Y1], [bridge.X2, bridge.Y2]]),
@@ -485,13 +478,13 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         });
 
         // starter towns
-        // var sdm = new StartingDeedLayer();
+        var sdm = new StartingDeedLayer();
 
-        // this.staringTownsLayer = new ol.layer.Vector({
-        //     source: sdm.generateSource(),
-        //     name: this.constants.StarterDeedsLayerName,
-        //     style: sdm.styleFunction
-        // });
+        this.staringTownsLayer = new ol.layer.Vector({
+            source: sdm.generateSource(),
+            name: this.constants.StarterDeedsLayerName,
+            style: sdm.styleFunction
+        });
 
         var deedsSrc = new ol.source.Vector();
 
@@ -510,7 +503,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         radius: (11 / resolution) + 4,
                         angle: Math.PI / 4,
                         fill: new ol.style.Fill({
-                            color: this.deedColor
+                            color: "rgba(255, 0, 0, 0.4)"
                         }),
                         stroke: new ol.style.Stroke({
                             color: isMarket ? "White" : "transparent",
@@ -523,8 +516,13 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         text: resolution < 4 ? feature.get('name') : '',
                         textBaseline: 'middle',
                         textAlign: 'center',
-                        fill: this.customStyles.defaultTextFill,
-                        stroke: this.customStyles.defaultTextStroke,
+                        fill: new ol.style.Fill({
+                            color: "White"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: "Black",
+                            width: 1
+                        })
                     })
                 })
             ]
@@ -557,124 +555,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             name: this.constants.DeedLayerName,
             style: deedStyleFunction
         });
-
-        // khaaaaaan
-        var easterEggSource = new ol.source.Vector();
-
-        var midpointFeature = new ol.Feature({
-            geometry: new ol.geom.Point([4096, -4096]),
-            type: "Midpoint"
-        })
-
-        easterEggSource.addFeature(midpointFeature);
-
-        var loafFeature = new ol.Feature({
-            geometry: new ol.geom.Point([6907, -2215]),
-            type: "Loaf"
-        });
-
-        easterEggSource.addFeature(loafFeature);
-
-        var khaanStyleFunction = function (feature, resolution) {
-            let fontSize: number = 12;
-            let khaanText = 'Khaaaan!';
-
-            if (resolution < 0.25) {
-                khaanText = 'Khaaaaaaaaaan!';
-            }
-
-            if (resolution < 0.125) {
-                khaanText = 'Khaaaaaaaaaaaaaaan!';
-            }
-
-            if (resolution < 0.07) {
-                khaanText = 'Khaaaaaaaaaaaaaaaaaaaaaaaaan!';
-            }
-
-            if (resolution < 0.04) {
-                khaanText = 'Khaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaan!';
-            }
-
-            if (feature.get('type') === "Khaaaan") {
-                return [
-                    new ol.style.Style({
-                        image: new ol.style.Icon({
-                            size: [96, 96],
-                            opacity: 0.7,
-                            src: resolution < 0.50 ? 'http://wurmonlinemaps.com/Content/dist/assets/khaaan.jpg' : ''
-                        }),
-                        text: new ol.style.Text({
-                            font: '' + fontSize + 'px Calibri,sans-serif',
-                            text: khaanText,
-                            textBaseline: 'middle',
-                            offsetY: 20,
-                            fill: this.customStyles.defaultTextFill,
-                            stroke: this.customStyles.defaultTextStroke,
-                        })
-                    })
-                ]
-            }
-
-            if (feature.get('type') === "Midpoint") {
-                return [
-                    new ol.style.Style({
-                        image: new ol.style.Icon({
-                            size: [128, 128],
-                            opacity: 0.8,
-                            src: resolution < 1 ? 'http://wurmonlinemaps.com/Content/dist/assets/xhair-128.png' : ''
-                        }),
-                        text: new ol.style.Text({
-                            font: '' + fontSize + 'px Calibri,sans-serif',
-                            text: "Midpoint! (Justa Map Maker's Mark)",
-                            textAlign: 'center',
-                            offsetY: 24,
-                            fill: new ol.style.Fill({
-                                color: '#FFF'
-                            }),
-                            stroke: new ol.style.Stroke({
-                                color: '#000',
-                                width: 2,
-                                offsetY: -2,
-                                offsetX: 2
-                            })
-                        })
-                    })
-                ]
-            }
-
-            if (feature.get('type') === "Loaf") {
-                return [
-                    new ol.style.Style({
-                        image: new ol.style.Icon({
-                            //size: [128, 128],
-                            opacity: 0.4,
-                            scale: 0.1,
-                            src: resolution < 1 ? 'http://wurmonlinemaps.com/Content/dist/assets/loaf.png' : ''
-                        }),
-                        text: new ol.style.Text({
-                            font: '' + fontSize + 'px Calibri,sans-serif',
-                            text: "",
-                            textAlign: 'center',
-                            offsetY: 24,
-                            fill: new ol.style.Fill({
-                                color: '#FFF'
-                            }),
-                            stroke: new ol.style.Stroke({
-                                color: '#000',
-                                width: 2,
-                                offsetY: -2,
-                                offsetX: 2
-                            })
-                        })
-                    })
-                ]
-            }
-        }.bind(this);
-
-        var khanLayer = new ol.layer.Vector({
-            source: easterEggSource,
-            style: khaanStyleFunction
-        })
 
         // oh shit the real map code kinda starts here!
         var mapExtent = [0.00000000, -8192.00000000, 8192.00000000, 0.00000000];
@@ -757,13 +637,11 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.oldTerrainRaster,
                 this.oldIsoRaster,
                 this.oldTopoRaster,
-                // this.landmarkLayer,
                 // roadLayer,
                 this.bridgeLayer,
                 // this.canalLayer,
-                // this.deedsLayer,
-                // this.staringTownsLayer,
-                // khanLayer
+                this.deedsLayer,
+                this.staringTownsLayer,
             ],
             target: 'map',
             controls: controls,
@@ -979,30 +857,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             this.newIsoRaster.setVisible(false);
             this.newTopoRaster.setVisible(true);
             this.currentRaster = this.constants.TopoLayerName;
-        }
-    }
-
-    setDeedColor(colorCode: string) {
-        if (colorCode.length > 0) {
-            this.cacheMonster.set("deedColor", colorCode);
-
-            console.log("Deed color saved", colorCode);
-        }
-    }
-
-    setCanalColor(colorCode: string) {
-        if (colorCode.length > 0) {
-            this.cacheMonster.set("canalColor", colorCode);
-
-            console.log("Canal color saved", colorCode);
-        }
-    }
-
-    setBridgeColor(colorCode: string) {
-        if (colorCode.length > 0) {
-            this.cacheMonster.set("bridgeColor", colorCode);
-
-            console.log("Bridge color saved", colorCode);
         }
     }
 } // end comp

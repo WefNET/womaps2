@@ -5,7 +5,6 @@
     <span>&nbsp;Xanadu 2.2</span>
     <span class="example-spacer">{{clickedUrlValue}}</span>
     <span>{{currentRaster}}</span>
-    <mat-icon class="header-icon" (click)="rightPanel.toggle()" title="Open left action panel">map</mat-icon>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -77,33 +76,7 @@
 
         </div>
     </mat-sidenav>
-
-    <mat-sidenav #rightPanel mode="slide" align="end" opened="false">
-        <div class="rightpanel-scrolling-content">
-            <p class="color-picker" [ngStyle]="{ 'background-color': deedColor }">
-                <mat-select placeholder="Deed Color" [(value)]="deedColor">
-                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setDeedColor(color.code)">{{ color.name }}</mat-option>
-                </mat-select>
-            </p>
-            <p class="color-picker" [ngStyle]="{ 'background-color': canalColor }">
-                <mat-select placeholder="Tunnel/Canal Color" [(value)]="canalColor">
-                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setCanalColor(color.code)">{{ color.name }}</mat-option>
-                </mat-select>
-            </p>
-            <p class="color-picker" [ngStyle]="{ 'background-color': bridgeColor }">
-                <mat-select placeholder="Bridge Color" [(value)]="bridgeColor">
-                    <mat-option *ngFor="let color of customColors" [value]="color.code" (click)="setBridgeColor(color.code)">{{ color.name }}</mat-option>
-                </mat-select>
-            </p>
-            <div class="color-panel">
-                <h2>Color Samples</h2>
-                <div class="color-chit" *ngFor="let color of customColors" [ngStyle]="{ 'background-color': color.code }">&nbsp;
-                    <span>{{color.name}}</span>
-                </div>
-            </div>
-        </div>
-    </mat-sidenav>
-
+    
     <mat-sidenav-content>
         <div #mapElement id="map" class="map">
         </div>
