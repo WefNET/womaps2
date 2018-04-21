@@ -1,6 +1,26 @@
+<mat-toolbar color="primary">
+    <span>Wurm Online Maps</span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="right-do"></span>
+
+    <span>
+
+    </span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>map</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>layers</mat-icon>
+            <span><a routerLink="/xanadu" routerLinkActive="active">Xanadu</a></span>
+        </button>
+    </mat-menu>
+</mat-toolbar>
+
 <div class="container">
     <div class="row">
-        <p>
+        <p class="disclaimer">
             <span>Disclaimer: </span>The Wurm Online Maps (dot com) is NOT a project of Code Club AB, wurmonline.com, or its affiliates.
             (Heck, we're not even Swedish!)</p>
     </div>

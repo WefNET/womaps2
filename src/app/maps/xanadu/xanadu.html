@@ -1,47 +1,74 @@
-<mat-toolbar color="primary">
-    <button mat-mini-fab class="example-fab" (click)="leftPanel.toggle()" title="Open left action panel">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <span>&nbsp;Xanadu 2.2</span>
-    <span class="example-spacer">{{clickedUrlValue}}</span>
-    <span>{{currentRaster}}</span>
-</mat-toolbar>
+<!-- <div class="fixed-header">
+    <mat-toolbar color="primary">
+        <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>&nbsp;Xanadu 2.2</span>
+        <span class="example-spacer">{{clickedUrlValue}}</span>
+        <span>{{currentRaster}}</span>
+    </mat-toolbar>
+</div> -->
 
-<mat-sidenav-container>
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>&nbsp;Xanadu 2.2</span>
+            <span class="example-spacer">{{clickedUrlValue}}</span>
+            <span>{{currentRaster}}</span>
+        </mat-expansion-panel-header>
+        <p (click)="toggleLayer($event, 'Starter Deeds Layer')">
+            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showStartingDeeds }">account_balance</i>(S)tartin' Towns
+        </p>
+        <p (click)="toggleLayer($event, 'Deeds Layer')">
+            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showDeeds }">local_play</i>(D)eeds
+        </p>
+        <p (click)="toggleLayer($event, 'Bridge Layer')">
+            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showBridges }">panorama_horizontal</i>(B)ridges
+        </p>
+        <p (click)="toggleLayer($event, 'Canal Layer')">
+            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showCanals }">compare_arrows</i>Canals/(T)unnels
+        </p>
+        <p (click)="toggleLayer($event, 'Grid Layer')">
+            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showGrid }">grid_on</i>(G)rid
+        </p>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Self aware panel
+            </mat-panel-title>
+            <mat-panel-description>
+                Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+    </mat-expansion-panel> -->
+</mat-accordion>
+
+<!-- <mat-sidenav-container>
     <mat-sidenav #leftPanel mode="slide" opened="false">
         <div class="leftpanel-scrolling-content">
-            <p>
-                <mat-slide-toggle class="setting-slider" [checked]="showStartingDeeds" (click)="toggleLayer($event, 'Starter Deeds Layer')">
-                    <mat-icon class="slide-icon">account_balance</mat-icon>Startin' Towns
-                </mat-slide-toggle>
+            <p (click)="toggleLayer($event, 'Starter Deeds Layer')">
+                <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showStartingDeeds }">account_balance</i>(S)tartin' Towns
             </p>
-            <p>
-                <mat-slide-toggle class="setting-slider" [checked]="showDeeds" (click)="toggleLayer($event, 'Deeds Layer')">
-                    <i class="material-icons slide-icon">local_play</i>Deeds
-                </mat-slide-toggle>
+            <p (click)="toggleLayer($event, 'Deeds Layer')">
+                <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showDeeds }">local_play</i>(D)eeds
             </p>
-            <p>
-                <mat-slide-toggle class="setting-slider" [checked]="showBridges" (click)="toggleLayer($event, 'Bridge Layer')">
-                    <i class="material-icons slide-icon">panorama_horizontal</i>Bridges
-                </mat-slide-toggle>
+            <p (click)="toggleLayer($event, 'Bridge Layer')">
+                <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showBridges }">panorama_horizontal</i>(B)ridges
             </p>
-            <p>
-                <mat-slide-toggle class="setting-slider" [checked]="showCanals" (click)="toggleLayer($event, 'Canal Layer')">
-                    <i class="material-icons slide-icon">compare_arrows</i>Canals
-                </mat-slide-toggle>
+            <p (click)="toggleLayer($event, 'Canal Layer')">
+                <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showCanals }">compare_arrows</i>Canals/(T)unnels
             </p>
-            <!-- <p>
-                <mat-slide-toggle class="setting-slider" [checked]="true" (click)="toggleLayer($event, 'Guard Tower Layer')">
-                    <i class="material-icons slide-icon">adjust</i>Landmarks
-                </mat-slide-toggle>
-            </p> -->
-            <p>
-                <mat-slide-toggle class="setting-slider" [checked]="showGrid" (click)="toggleLayer($event, 'Grid Layer')">
-                    <i class="material-icons slide-icon">grid_on</i>Grid
-                </mat-slide-toggle>
+            <p (click)="toggleLayer($event, 'Grid Layer')">
+                <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showGrid }">grid_on</i>(G)rid
             </p>
+
             <h6>2016 Nov Layers</h6>
-            <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle-group>
                 <mat-button-toggle value="Terrain" (click)="mainLayer(0)" title="View terrain layer">
                     <mat-icon>explore</mat-icon>
                 </mat-button-toggle>
@@ -54,7 +81,7 @@
             </mat-button-toggle-group>
 
             <h6>2017 Aug Layers</h6>
-            <mat-button-toggle-group #group="matButtonToggleGroup">
+            <mat-button-toggle-group>
                 <mat-button-toggle value="Terrain" (click)="mainLayer(3)" title="View terrain layer">
                     <mat-icon>explore</mat-icon>
                 </mat-button-toggle>
@@ -67,6 +94,8 @@
             </mat-button-toggle-group>
 
             <p>
+                <br>
+                <br>
                 <mat-select *ngIf="deeds != null" placeholder="Find a Deed">
                     <mat-option *ngFor="let deed of deeds; let i = index;" [value]="deed.ID" (click)="gotoDeed($event, i)">
                         {{ deed.Name }}
@@ -76,9 +105,9 @@
 
         </div>
     </mat-sidenav>
-    
-    <mat-sidenav-content>
-        <div #mapElement id="map" class="map">
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+
+    map
+
+</mat-sidenav-container> -->
+
+<div #mapElement id="map" class="map"> </div>

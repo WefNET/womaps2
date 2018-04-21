@@ -74,6 +74,8 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     dFill: any = this.constants.defaultTextFill;
     dText: any = this.constants.defaultTextStroke;
 
+    panelOpenState: boolean = false;
+
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
 
         // c or C
@@ -694,7 +696,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     }
 
     setMap() {
-        this.map.setTarget(this.mapElement.nativeElement.id);
+        //this.map.setTarget(this.mapElement.nativeElement.id);
     }
 
     toggleLayer(event: any, layerName: string) {
@@ -729,7 +731,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 case this.constants.GridLayerName:
                     {
                         this.map.removeLayer(this.gridLayer);
-                        this.showGrid = false;
+                        this.showGrid = !this.showGrid;
                         break;
                     }
                 case this.constants.CanalLayerName:

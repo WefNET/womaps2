@@ -1,5 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    margin: 0;
+  }
+
+.right-do {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+
+.disclaimer {
+    font-style: italic;
+}
 
 .ol-mouse-position {
     top: 13px;
@@ -11,5 +25,9 @@
 }
 
 .ol-viewport .ol-unselectable {
+    background-color: #3A4373;
+}
+
+html, body {
     background-color: #3A4373;
 }
