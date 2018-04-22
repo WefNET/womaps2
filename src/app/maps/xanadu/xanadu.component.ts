@@ -1,6 +1,6 @@
 // import { Component, OnInit } from '@angular/core';
 import { HostListener, AfterContentInit, AfterViewInit, Component, ElementRef, ViewChild, OnInit } from "@angular/core";
-
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 import { DeedsService } from './../../services/deeds.service';
@@ -158,7 +158,8 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         }
     }
 
-    constructor(private deedsService: DeedsService, private route: ActivatedRoute) {
+    constructor(private deedsService: DeedsService, private route: ActivatedRoute, private title: Title) {
+        title.setTitle("Xanadu - WurmOnlineMaps.com")
     }
 
     ngOnInit(): void {

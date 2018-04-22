@@ -3,7 +3,7 @@
 
 body {
     margin: 0;
-  }
+}
 
 .right-do {
     /* This fills the remaining space, by using flexbox. 
@@ -30,4 +30,9 @@ body {
 
 html, body {
     background-color: #3A4373;
+}
+
+.container {
+    padding: 0 25px;
+    background-color: White;
 }
