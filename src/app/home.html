@@ -11,9 +11,9 @@
         <mat-icon>map</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="Go('xanadu')">
             <mat-icon>layers</mat-icon>
-            <span><a routerLink="/xanadu" routerLinkActive="active">Xanadu</a></span>
+            <span>Xanadu</span>
         </button>
     </mat-menu>
 </mat-toolbar>
