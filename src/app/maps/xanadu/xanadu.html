@@ -1,54 +1,16 @@
-<!-- <div class="fixed-header">
+<div class="fixed-header">
     <mat-toolbar color="primary">
         <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
         <span>&nbsp;Xanadu 2.2</span>
-        <span class="example-spacer">{{clickedUrlValue}}</span>
+        <span class="right-do">{{clickedUrlValue}}</span>
         <span>{{currentRaster}}</span>
     </mat-toolbar>
-</div> -->
+</div>
 
-<mat-accordion>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span>&nbsp;Xanadu 2.2</span>
-            <span class="example-spacer">{{clickedUrlValue}}</span>
-            <span>{{currentRaster}}</span>
-        </mat-expansion-panel-header>
-        <p (click)="toggleLayer($event, 'Starter Deeds Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showStartingDeeds }">account_balance</i>(S)tartin' Towns
-        </p>
-        <p (click)="toggleLayer($event, 'Deeds Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showDeeds }">local_play</i>(D)eeds
-        </p>
-        <p (click)="toggleLayer($event, 'Bridge Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showBridges }">panorama_horizontal</i>(B)ridges
-        </p>
-        <p (click)="toggleLayer($event, 'Canal Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showCanals }">compare_arrows</i>Canals/(T)unnels
-        </p>
-        <p (click)="toggleLayer($event, 'Grid Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showGrid }">grid_on</i>(G)rid
-        </p>
-    </mat-expansion-panel>
-    <!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Self aware panel
-            </mat-panel-title>
-            <mat-panel-description>
-                Currently I am {{panelOpenState ? 'open' : 'closed'}}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
-    </mat-expansion-panel> -->
-</mat-accordion>
-
-<!-- <mat-sidenav-container>
+<div class="map-layer">
+<mat-sidenav-container>
     <mat-sidenav #leftPanel mode="slide" opened="false">
         <div class="leftpanel-scrolling-content">
             <p (click)="toggleLayer($event, 'Starter Deeds Layer')">
@@ -106,8 +68,7 @@
         </div>
     </mat-sidenav>
 
-    map
+    <div #mapElement id="map" class="map"> </div>
 
-</mat-sidenav-container> -->
-
-<div #mapElement id="map" class="map"> </div>
+</mat-sidenav-container>
+</div>
