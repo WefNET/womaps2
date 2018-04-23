@@ -17,7 +17,7 @@ declare var ol: any;
 @Component({
     selector: 'xanadu-map',
     templateUrl: 'xanadu.html',
-    styleUrls: [ './../maps.css']
+    styleUrls: ['./../maps.css']
 })
 
 export class XanaduComponent implements OnInit, AfterViewInit {
@@ -183,6 +183,11 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             .subscribe(data => {
                 this.renderOpenLayers(data);
             })
+            
+        this.deedsService.getXanaduDeeds()
+            .subscribe(data => {
+                console.log("farts!");
+            })
     }
 
     renderOpenLayers(data: ServerData): void {
@@ -224,7 +229,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         textBaseline: 'middle',
                         textAlign: 'center',
                         // offsetY: 12,
-                        fill:  new ol.style.Fill({
+                        fill: new ol.style.Fill({
                             // color: '#FFF'
                             color: "White"
                         }),
@@ -293,7 +298,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         textBaseline: 'middle',
                         textAlign: 'center',
                         // offsetY: 12,
-                        fill:  new ol.style.Fill({
+                        fill: new ol.style.Fill({
                             // color: '#FFF'
                             color: "White"
                         }),
