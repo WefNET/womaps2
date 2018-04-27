@@ -10,6 +10,7 @@ import { IDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData
 // import { LandmarkLayer } from './layers/landmark.module'
 // import { RoadLayer } from './layers/road.module'
 import { StartingDeedLayer } from './layers/starting-towns.module'
+import { BridgeLayer } from './layers/bridge-module'
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -211,56 +212,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         ];
 
         // les bridge
-        var bridgeStyleFuction = function (feature, resolution) {
-            let fontSize: number = resolution <= 0.125 ? 16 : 12;
-
-            var bridgeName = feature.get('name') != null ? feature.get('name') : '';
-            var bWidth = feature.get('width') != null ? feature.get('width') : 2
-
-            return [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        width: 8 / resolution,
-                        color: "rgba(255, 0, 255, 0.4)",
-                    }),
-                    text: new ol.style.Text({
-                        font: '' + fontSize + 'px Calibri,sans-serif',
-                        text: resolution < 8 ? bridgeName : '',
-                        textBaseline: 'middle',
-                        textAlign: 'center',
-                        // offsetY: 12,
-                        fill: new ol.style.Fill({
-                            // color: '#FFF'
-                            color: "White"
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'Black',
-                            width: 1
-                        })
-                    })
-                }),
-
-            ]
-        }.bind(() => { this; console.log("Bridge styles bound") });
-
-        var bridgeSources = new ol.source.Vector();
-
-        for (let bridge of this.bridges) {
-            // console.log("Rendering bridge:", bridge);
-
-            var bridgeFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[bridge.X1, bridge.Y1], [bridge.X2, bridge.Y2]]),
-                name: bridge.Name,
-                width: bridge.Width
-            });
-
-            bridgeSources.addFeature(bridgeFeature);
-        }
+        var bridgeModule = new BridgeLayer();
 
         this.bridgeLayer = new ol.layer.Vector({
-            source: bridgeSources,
+            source: bridgeModule.generateSource(),
             name: this.constants.BridgeLayerName,
-            style: bridgeStyleFuction
+            style: bridgeModule.styleFunction
         });
 
         // canal passages

@@ -48,6 +48,7 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
     generateSource() {
 
         var startingTownsSource = new ol.source.Vector();
+
         for (let town of startingTowns) {
 
             var startingTownFeature = new ol.Feature({
@@ -57,6 +58,7 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
 
             startingTownsSource.addFeature(startingTownFeature);
         }
+        
         return startingTownsSource
     }
 
