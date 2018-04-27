@@ -11,6 +11,7 @@ import { IDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData
 // import { RoadLayer } from './layers/road.module'
 import { StartingDeedLayer } from './layers/starting-towns.module'
 import { BridgeLayer } from './layers/bridge-module'
+import { CanalLayer } from './layers/canal-module'
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -184,7 +185,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             .subscribe(data => {
                 this.renderOpenLayers(data);
             })
-            
+
         this.deedsService.getXanaduDeeds()
             .subscribe(data => {
                 console.log("farts!");
@@ -196,8 +197,8 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.deeds = data.Deeds;
         this.canals = data.Canals;
-        this.bridges = data.Bridges;
-        this.landmarks = data.Landmarks;
+        // this.bridges = data.Bridges;
+        // this.landmarks = data.Landmarks;
 
         var controls = [
             // new ol.control.Attribution(),
@@ -221,81 +222,13 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         });
 
         // canal passages
-        var canalSources = new ol.source.Vector();
-
-        var canalStyleFunction = function (feature, resolution) {
-            var isCanal = feature.get('isCanal');
-            var isTunnel = feature.get('isTunnel');
-            var allBoats = feature.get('allBoats')
-
-            let fontSize: number = resolution <= 0.125 ? 16 : 12;
-
-            let canalName = feature.get('name') != null ? feature.get('name') : '';
-            let canalText: string = `${canalName} `;
-
-            if (isCanal === true && isTunnel === true) {
-                canalText += `(${isCanal === true ? 'Canal /' : ''} ${isTunnel === true ? 'Tunnel /' : ''} ${allBoats === true ? 'All Boats' : 'Knarrs only'})`;
-            }
-            else if (isCanal === true && isTunnel === false) {
-                canalText += `(${isCanal === true ? 'Canal /' : ''} ${allBoats === true ? 'All Boats' : 'Knarrs only'})`;
-            }
-            else if (isCanal === false && isTunnel === true) {
-                canalText += `(Tunnel)`;
-            }
-
-            return [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        width: 11 / resolution,
-                        color: "rgba(0, 191, 255, 0.4)",
-                    }),
-                    text: new ol.style.Text({
-                        font: '' + fontSize + 'px Calibri,sans-serif',
-                        text: resolution < 8 ? canalText : '',
-                        textBaseline: 'middle',
-                        textAlign: 'center',
-                        // offsetY: 12,
-                        fill: new ol.style.Fill({
-                            // color: '#FFF'
-                            color: "White"
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'Black',
-                            width: 1
-                        })
-                    })
-                }),
-
-            ]
-        }.bind(this);
-
-        for (let canal of this.canals) {
-            var canalFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[canal.X1, canal.Y1], [canal.X2, canal.Y2]]),
-                name: canal.Name,
-                isCanal: canal.IsCanal,
-                isTunnel: canal.IsTunnel,
-                allBoats: canal.AllBoats,
-            });
-
-            canalSources.addFeature(canalFeature);
-        }
-
-        var doomTunnelFeature = new ol.Feature({
-            geometry: new ol.geom.LineString([[6377, -2322], [5800, -2322]]),
-            name: "Doom Tunnel",
-            isCanal: false,
-            isTunnel: true,
-            allBoats: false,
-        });
-
-        canalSources.addFeature(doomTunnelFeature);
+        var canalModule = new CanalLayer();
 
         this.canalLayer = new ol.layer.Vector({
-            source: canalSources,
+            source: canalModule.generateSource(),
             name: this.constants.CanalLayerName,
-            style: canalStyleFunction
-        });
+            style: canalModule.styleFunction
+        })
 
         // guard tower feature
         var gts = [
