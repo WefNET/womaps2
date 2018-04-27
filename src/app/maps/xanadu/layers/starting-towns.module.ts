@@ -63,7 +63,6 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
     }
 
     styleFunction(feature, resolution) {
-        let fontSize: number = resolution <= 0.125 ? 24 : 16;
         var name = feature.get('name');
 
         return [
@@ -76,7 +75,7 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
                     color: 'rgba(0, 0, 255, 0.1)'
                 }),
                 text: new ol.style.Text({
-                    font: '14px Calibri,sans-serif',
+                    font: '16px Calibri,sans-serif',
                     text: name,
                     textBaseline: 'middle',
                     textAlign: 'center',

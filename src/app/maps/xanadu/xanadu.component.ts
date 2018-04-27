@@ -412,7 +412,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         stroke: new ol.style.Stroke({
                             color: isMarket ? "White" : "transparent",
                             width: isMarket ? 3 : 0,
-                            // lineDash: isMarket ?  [0, 6] : [0, 0]
                         })
                     }),
                     text: new ol.style.Text({
@@ -636,11 +635,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         this.showCanals = false;
                         break;
                     }
-                // case this.constants.GuardTowerLayerName:
-                //   {
-                //     this.map.removeLayer(this.landmarkLayer);
-                //     break;
-                //   }
                 case this.constants.BridgeLayerName:
                     {
                         this.map.removeLayer(this.bridgeLayer);
@@ -678,11 +672,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                         this.showCanals = true;
                         break;
                     }
-                // case this.constants.GuardTowerLayerName:
-                //   {
-                //     this.map.addLayer(this.landmarkLayer);
-                //     break;
-                //   }
                 case this.constants.BridgeLayerName:
                     {
                         this.map.addLayer(this.bridgeLayer);
