@@ -7,6 +7,12 @@ export interface IDeed {
     Notes: string;
 }
 
+export interface IBoringDeed {
+    name: string;
+    x: number;
+    y: number
+}
+
 export interface ServerData {
     Deeds: IDeed[];
     Canals: ICanal[];

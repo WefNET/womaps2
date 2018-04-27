@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DeedsService } from './../../services/deeds.service';
 
-import { IDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData, CustomColors } from './../../app.models';
+import { IDeed, IBoringDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData, CustomColors } from './../../app.models';
 
 // import { LandmarkLayer } from './layers/landmark.module'
 // import { RoadLayer } from './layers/road.module'
@@ -35,7 +35,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     // customStyles: any = new MapStyles();
 
     map: any;
-    deeds: IDeed[];
+    deeds: IBoringDeed[];
     canals: ICanal[];
     bridges: IBridge[];
     landmarks: ILandmark[];
@@ -181,22 +181,25 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.startingZ = params["z"];
             });
 
-        this.deedsService.getData()
-            .subscribe(data => {
-                this.renderOpenLayers(data);
-            })
+        // this.deedsService.getData()
+        //     .subscribe(data => {
+        //         this.renderOpenLayers(data);
+        //     })
 
         this.deedsService.getXanaduDeeds()
             .subscribe(data => {
-                console.log("farts!");
+                this.deeds = data.rows;
+
+                console.log("Deeds", this.deeds);
+                this.renderOpenLayers();
             })
     }
 
-    renderOpenLayers(data: ServerData): void {
-        // console.log("Rendering function called");
+    renderOpenLayers(): void {
+        console.log("Rendering function called");
 
-        this.deeds = data.Deeds;
-        this.canals = data.Canals;
+        // this.deeds = data;
+        // this.canals = data.Canals;
         // this.bridges = data.Bridges;
         // this.landmarks = data.Landmarks;
 
@@ -432,22 +435,21 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         }.bind(this);
 
         for (let deed of this.deeds) {
-            if (deed.Name == "Summerholt" ||
-                deed.Name == "Greymead" ||
-                deed.Name == "Whitefay" ||
-                deed.Name == "Glasshollow" ||
-                deed.Name == "Newspring" ||
-                deed.Name == "Esteron" ||
-                deed.Name == "Linton" ||
-                deed.Name == "Lormere" ||
-                deed.Name == "Vrock Landing") {
+            if (deed.name == "Summerholt" ||
+                deed.name == "Greymead" ||
+                deed.name == "Whitefay" ||
+                deed.name == "Glasshollow" ||
+                deed.name == "Newspring" ||
+                deed.name == "Esteron" ||
+                deed.name == "Linton" ||
+                deed.name == "Lormere" ||
+                deed.name == "Vrock Landing") {
                 continue;
             }
 
             var deedFeature = new ol.Feature({
-                geometry: new ol.geom.Point([deed.X, deed.Y]),
-                name: deed.Name,
-                notes: deed.Notes
+                geometry: new ol.geom.Point([deed.x, deed.y]),
+                name: deed.name,
             });
 
             deedsSrc.addFeature(deedFeature);
@@ -691,7 +693,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         console.log("Find a deed, deed found:", deed);
 
-        var extent = [deed.X - 100, deed.Y - 100, deed.X + 100, deed.Y + 100];
+        var extent = [deed.x - 100, deed.y - 100, deed.x + 100, deed.y + 100];
         console.log("Find a deed Extent:", extent);
         var view = this.map.getView();
         console.log("Find a deed View:", view);
