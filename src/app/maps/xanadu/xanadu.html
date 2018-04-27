@@ -1,15 +1,13 @@
-<div class="fixed-header">
-    <mat-toolbar color="primary">
-        <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <span>&nbsp;Xanadu 2.2</span>
-        <span class="right-do">{{clickedUrlValue}}</span>
-        <span>{{currentRaster}}</span>
-    </mat-toolbar>
-</div>
+<mat-toolbar color="primary">
+    <button mat-fab class="example-fab" (click)="leftPanel.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>&nbsp;Xanadu 2.2</span>
+    <span class="right-do">{{clickedUrlValue}}</span>
+    <span>{{currentRaster}}</span>
+</mat-toolbar>
 
-<div class="map-layer">
+
 <mat-sidenav-container>
     <mat-sidenav #leftPanel mode="slide" opened="false">
         <div class="leftpanel-scrolling-content">
@@ -59,8 +57,8 @@
                 <br>
                 <br>
                 <mat-select *ngIf="deeds != null" placeholder="Find a Deed">
-                    <mat-option *ngFor="let deed of deeds; let i = index;" [value]="deed.ID" (click)="gotoDeed($event, i)">
-                        {{ deed.Name }}
+                    <mat-option *ngFor="let deed of deeds; let i = index;" (click)="gotoDeed($event, i)">
+                        {{ deed.name }}
                     </mat-option>
                 </mat-select>
             </p>
@@ -71,4 +69,3 @@
     <div #mapElement id="map" class="map"> </div>
 
 </mat-sidenav-container>
-</div>

@@ -1,23 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-.map-layer {
-  position: relative;
-  top: 52px;
-  height: 100%;
-}
-
-.fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100% !important;
-}
-
-html {
-  font-family: sans-serif;
-}
 
 .header-icon {
   padding: 0 14px;
@@ -60,6 +43,7 @@ div.ol-full-screen {
   top: 68px;
   width: 200px;
   padding: 4px;
+  max-height: 50%;
 }
 
 .slide-icon {

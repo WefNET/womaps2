@@ -482,7 +482,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldTerrainRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles/Xanadu-terrain_161101/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/Xanadu-terrain_161101/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16TerrainLayerName,
@@ -490,7 +490,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldIsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles/Xanadu-iso_161101/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/Xanadu-iso_161101/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16IsoLayerName,
@@ -498,7 +498,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldTopoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles/Xanadu-topo_161101/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/Xanadu-topo_161101/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16TopoLayerName,
@@ -506,7 +506,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newTerrainRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles/xan-1708/terrain/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/xan-1708/terrain/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.TerrainLayerName,
@@ -514,7 +514,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newIsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles//xan-1708/iso/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/xan-1708/iso/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.IsoLayerName,
@@ -522,7 +522,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newTopoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://wurmonlinemaps.com/Content/Tiles/xan-1708/topo/{z}/{x}/{y}.png",
+                url: "../assets/Tiles/xan-1708/topo/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.TopoLayerName,
