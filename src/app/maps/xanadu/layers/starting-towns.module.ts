@@ -75,7 +75,7 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
                     color: 'rgba(0, 0, 255, 0.1)'
                 }),
                 text: new ol.style.Text({
-                    font: '16px Calibri,sans-serif',
+                    font: '14px Calibri,sans-serif',
                     text: name,
                     textBaseline: 'middle',
                     textAlign: 'center',
