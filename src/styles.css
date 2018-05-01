@@ -1,4 +1,3 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 /* You can add global styles to this file, and also import other style files */
 
 body {
@@ -35,4 +34,14 @@ html, body {
 .container {
     padding: 0 25px;
     background-color: White;
+}
+
+/* tool bar */
+div.ui-toolbar {
+    background: #673BB5;
+}
+
+.toolbar-header {
+    color: white;
+    margin-bottom: 0;
 }
