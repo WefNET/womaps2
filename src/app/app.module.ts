@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule } from 'primeng/primeng';
+import { ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     ),
-    ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule
+    ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule
   ],
   providers: [
     DeedsService,

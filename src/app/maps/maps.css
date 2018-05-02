@@ -57,3 +57,7 @@ div.ol-full-screen {
 .layer-selected {
   color: darkorchid;
 }
+
+.layer-toggle:hover {
+  cursor: pointer;
+}

@@ -11,51 +11,50 @@
 </p-toolbar>
 
 <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
-    <div class="leftpanel-scrolling-content">
-        <p (click)="toggleLayer($event, 'Starter Deeds Layer')">
-                <i class="fas fa-balance-scale"></i>
-            <i class="fa-balance-scale" [ngClass]="{ 'layer-selected': showStartingDeeds }"></i>(S)tartin' Towns
-        </p>
-        <p (click)="toggleLayer($event, 'Deeds Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showDeeds }">local_play</i>(D)eeds
-        </p>
-        <p (click)="toggleLayer($event, 'Bridge Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showBridges }">panorama_horizontal</i>(B)ridges
-        </p>
-        <p (click)="toggleLayer($event, 'Canal Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showCanals }">compare_arrows</i>Canals/(T)unnels
-        </p>
-        <p (click)="toggleLayer($event, 'Grid Layer')">
-            <i class="material-icons slide-icon" [ngClass]="{ 'layer-selected': showGrid }">grid_on</i>(G)rid
-        </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Starter Deeds Layer')">
+        <i class="fa fa-trophy fa-2x" [ngClass]="{ 'layer-selected': showStartingDeeds }"></i>(S)tartin' Towns
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Deeds Layer')">
+        <i class="fa fa-university fa-2x" [ngClass]="{ 'layer-selected': showDeeds }"></i>(D)eeds
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Bridge Layer')">
+        <i class="fa fa-road fa-2x" [ngClass]="{ 'layer-selected': showBridges }"></i>(B)ridges
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Canal Layer')">
+        <i class="fa fa-ship fa-2x" [ngClass]="{ 'layer-selected': showCanals }"></i>Canals/(T)unnels
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Grid Layer')">
+        <i class="fa fa-th fa-2x" [ngClass]="{ 'layer-selected': showGrid }"></i>(G)rid
+    </p>
 
-        <h6>2016 Nov Layers</h6>
-        <button value="Terrain" (click)="mainLayer(0)" title="View terrain layer">
+    <h6>2016 Nov Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(0)" title="View terrain layer">
         </button>
-        <button value="Isometric" (click)="mainLayer(1)" title="View isometric layer">
+        <button pButton label="Iso" (click)="mainLayer(1)" title="View isometric layer">
         </button>
-        <button value="Topological" (click)="mainLayer(2)" title="View topological layer">
+        <button pButton label="Topo" (click)="mainLayer(2)" title="View topological layer">
         </button>
+    </p>
 
-        <h6>2017 Aug Layers</h6>
-        <button value="Terrain" (click)="mainLayer(3)" title="View terrain layer">
+    <h6>2017 Aug Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(3)" title="View terrain layer">
         </button>
-        <button value="Isometric" (click)="mainLayer(4)" title="View isometric layer">
+        <button pButton label="Iso" (click)="mainLayer(4)" title="View isometric layer">
         </button>
-        <button value="Topological" (click)="mainLayer(5)" title="View topological layer">
+        <button pButton label="Topo" (click)="mainLayer(5)" title="View topological layer">
         </button>
+    </p>
 
-        <p>
-            <br>
-            <br>
-            <select *ngIf="deeds != null" placeholder="Find a Deed">
-                <option *ngFor="let deed of deeds; let i = index;" (click)="gotoDeed($event, i)">
-                    {{ deed.name }}
-                </option>
-            </select>
-        </p>
-
-    </div>
+    <h6>Find a Deed</h6>
+    <p>
+        <select *ngIf="deeds != null" placeholder="Find a Deed" (change)="selectchange($event)" style="font-size: 14px;">
+            <option *ngFor="let deed of deeds; let i = index;" value="{{i}}">
+                {{ deed.name }}
+            </option>
+        </select>
+    </p>
 </p-sidebar>
 
 <div #mapElement id="map" class="map"> </div>

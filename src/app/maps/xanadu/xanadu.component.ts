@@ -703,6 +703,22 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         view.fit(extent, size);
     }
 
+    selectchange(args) {
+
+        let deed = this.deeds[args.target.value];
+
+        console.log("Find a deed, deed found:", deed);
+
+        var extent = [deed.x - 100, deed.y - 100, deed.x + 100, deed.y + 100];
+        console.log("Find a deed Extent:", extent);
+        var view = this.map.getView();
+        console.log("Find a deed View:", view);
+        var size = this.map.getSize();
+        console.log("Find a deed Size:", size);
+
+        view.fit(extent, size);
+    }
+
     mainLayer(id: number) {
         if (id === 0) {
             this.oldTerrainRaster.setVisible(true);
