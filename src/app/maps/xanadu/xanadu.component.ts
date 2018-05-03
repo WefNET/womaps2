@@ -32,7 +32,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     pixelRatio: any;
 
     constants: Constants = new Constants();
-    // customStyles: any = new MapStyles();
 
     map: any;
     deeds: IBoringDeed[];
@@ -60,7 +59,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     newTopoRaster: any;
     newIsoRaster: any;
 
-    currentRaster: string = this.constants.TerrainLayerName;
+    Jan18TerrainRaster: any;
+    Jan18TopoRaster: any;
+    Jan18IsoRaster: any;
+    Jan18RouteRaster: any;
+
+    currentRaster: string = this.constants.Jan18TerrainLayerName;
 
     customColors: any[] = CustomColors;
     deedColor: string;
@@ -82,55 +86,42 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         // c or C
         if (event.keyCode === 99 || event.keyCode === 67) {
+            this.hideAllLayers();
             // ...
-            if (this.currentRaster === this.constants.TopoLayerName) {
+            if (this.currentRaster === this.constants.Jan18RoutesLayerName) {
                 this.oldTerrainRaster.setVisible(true);
-                this.oldIsoRaster.setVisible(false);
-                this.oldTopoRaster.setVisible(false);
-                this.newTerrainRaster.setVisible(false);
-                this.newIsoRaster.setVisible(false);
-                this.newTopoRaster.setVisible(false);
                 this.currentRaster = this.constants.Nov16TerrainLayerName;
             } else if (this.currentRaster === this.constants.Nov16TerrainLayerName) {
-                this.oldTerrainRaster.setVisible(false);
                 this.oldIsoRaster.setVisible(true);
-                this.oldTopoRaster.setVisible(false);
-                this.newTerrainRaster.setVisible(false);
-                this.newIsoRaster.setVisible(false);
-                this.newTopoRaster.setVisible(false);
                 this.currentRaster = this.constants.Nov16IsoLayerName;
             } else if (this.currentRaster === this.constants.Nov16IsoLayerName) {
-                this.oldTerrainRaster.setVisible(false);
-                this.oldIsoRaster.setVisible(false);
                 this.oldTopoRaster.setVisible(true);
-                this.newTerrainRaster.setVisible(false);
-                this.newIsoRaster.setVisible(false);
-                this.newTopoRaster.setVisible(false);
                 this.currentRaster = this.constants.Nov16TopoLayerName;
             } else if (this.currentRaster === this.constants.Nov16TopoLayerName) {
-                this.oldTerrainRaster.setVisible(false);
-                this.oldIsoRaster.setVisible(false);
-                this.oldTopoRaster.setVisible(false);
                 this.newTerrainRaster.setVisible(true);
-                this.newIsoRaster.setVisible(false);
-                this.newTopoRaster.setVisible(false);
                 this.currentRaster = this.constants.TerrainLayerName;
             } else if (this.currentRaster === this.constants.TerrainLayerName) {
-                this.oldTerrainRaster.setVisible(false);
-                this.oldIsoRaster.setVisible(false);
-                this.oldTopoRaster.setVisible(false);
-                this.newTerrainRaster.setVisible(false);
                 this.newIsoRaster.setVisible(true);
-                this.newTopoRaster.setVisible(false);
                 this.currentRaster = this.constants.IsoLayerName;
-            } else {
-                this.oldTerrainRaster.setVisible(false);
-                this.oldIsoRaster.setVisible(false);
-                this.oldTopoRaster.setVisible(false);
-                this.newTerrainRaster.setVisible(false);
-                this.newIsoRaster.setVisible(false);
+            } else if (this.currentRaster === this.constants.IsoLayerName) {
                 this.newTopoRaster.setVisible(true);
                 this.currentRaster = this.constants.TopoLayerName;
+            }
+            else if (this.currentRaster === this.constants.TopoLayerName) {
+                this.Jan18TerrainRaster.setVisible(true);
+                this.currentRaster = this.constants.Jan18TerrainLayerName;
+            }
+            else if (this.currentRaster === this.constants.Jan18TerrainLayerName) {
+                this.Jan18IsoRaster.setVisible(true);
+                this.currentRaster = this.constants.Jan18IsoLayerName;
+            }
+            else if (this.currentRaster === this.constants.Jan18IsoLayerName) {
+                this.Jan18TopoRaster.setVisible(true);
+                this.currentRaster = this.constants.Jan18TopoLayerName;
+            }
+            else {
+                this.Jan18RouteRaster.setVisible(true);
+                this.currentRaster = this.constants.Jan18RoutesLayerName;
             }
         }
 
@@ -482,7 +473,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldTerrainRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/Xanadu-terrain_161101/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1611/terra/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16TerrainLayerName,
@@ -490,7 +481,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldIsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/Xanadu-iso_161101/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1611/iso/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16IsoLayerName,
@@ -498,7 +489,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.oldTopoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/Xanadu-topo_161101/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1611/topo/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Nov16TopoLayerName,
@@ -506,7 +497,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newTerrainRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/xan-1708/terrain/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1708/terrain/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.TerrainLayerName,
@@ -514,7 +505,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newIsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/xan-1708/iso/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1708/iso/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.IsoLayerName,
@@ -522,17 +513,46 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.newTopoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "../assets/Tiles/xan-1708/topo/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/xan-1708/topo/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.TopoLayerName,
         });
 
-        this.newIsoRaster.setVisible(false);
-        this.newTopoRaster.setVisible(false);
-        this.oldTerrainRaster.setVisible(false);
-        this.oldIsoRaster.setVisible(false);
-        this.oldTopoRaster.setVisible(false);
+        this.Jan18IsoRaster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: "http://jackswurmtools.com/Content/tiles/xan-1801/iso/{z}/{x}/{y}.png",
+                tileGrid: mapTileGrid,
+            }),
+            name: this.constants.Jan18IsoLayerName,
+        });
+
+        this.Jan18TopoRaster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: "http://jackswurmtools.com/Content/tiles/xan-1801/topo/{z}/{x}/{y}.png",
+                tileGrid: mapTileGrid,
+            }),
+            name: this.constants.Jan18TopoLayerName,
+        });
+
+        this.Jan18TerrainRaster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: "http://jackswurmtools.com/Content/tiles/xan-1801/terrain/{z}/{x}/{y}.png",
+                tileGrid: mapTileGrid,
+            }),
+            name: this.constants.Jan18TerrainLayerName,
+        });
+
+        this.Jan18RouteRaster = new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: "http://jackswurmtools.com/Content/tiles/xan-1801/routes/{z}/{x}/{y}.png",
+                tileGrid: mapTileGrid,
+            }),
+            name: this.constants.Jan18RoutesLayerName,
+        });
+
+        this.hideAllLayers();
+        this.Jan18TerrainRaster.setVisible(true);
 
         this.map = new ol.Map({
             layers: [
@@ -542,6 +562,10 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.oldTerrainRaster,
                 this.oldIsoRaster,
                 this.oldTopoRaster,
+                this.Jan18IsoRaster,
+                this.Jan18TopoRaster,
+                this.Jan18TerrainRaster,
+                this.Jan18RouteRaster,
                 // roadLayer,
                 this.bridgeLayer,
                 this.canalLayer,
@@ -571,7 +595,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             var x = parseInt(coord[0]);
             var y = parseInt(coord[1]);
 
-            this.clickedUrlValue = `http://wurmonlinemaps.com/maps/xanadu?x=${x}&y=${y}&z=${zoom}`;
+            this.clickedUrlValue = `http://wurmonlinemaps.com/xanadu?x=${x}&y=${y}&z=${zoom}`;
 
             console.log("Event target", evt.target);
 
@@ -703,6 +727,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         view.fit(extent, size);
     }
 
+
     selectchange(args) {
 
         let deed = this.deeds[args.target.value];
@@ -720,54 +745,52 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     }
 
     mainLayer(id: number) {
+        this.hideAllLayers();
+
         if (id === 0) {
             this.oldTerrainRaster.setVisible(true);
-            this.oldIsoRaster.setVisible(false);
-            this.oldTopoRaster.setVisible(false);
-            this.newTerrainRaster.setVisible(false);
-            this.newIsoRaster.setVisible(false);
-            this.newTopoRaster.setVisible(false);
             this.currentRaster = this.constants.Nov16TerrainLayerName;
         } else if (id === 1) {
-            this.oldTerrainRaster.setVisible(false);
             this.oldIsoRaster.setVisible(true);
-            this.oldTopoRaster.setVisible(false);
-            this.newTerrainRaster.setVisible(false);
-            this.newIsoRaster.setVisible(false);
-            this.newTopoRaster.setVisible(false);
             this.currentRaster = this.constants.Nov16IsoLayerName;
         } else if (id === 2) {
-            this.oldTerrainRaster.setVisible(false);
-            this.oldIsoRaster.setVisible(false);
             this.oldTopoRaster.setVisible(true);
-            this.newTerrainRaster.setVisible(false);
-            this.newIsoRaster.setVisible(false);
-            this.newTopoRaster.setVisible(false);
             this.currentRaster = this.constants.Nov16TopoLayerName;
         } else if (id === 3) {
-            this.oldTerrainRaster.setVisible(false);
-            this.oldIsoRaster.setVisible(false);
-            this.oldTopoRaster.setVisible(false);
             this.newTerrainRaster.setVisible(true);
-            this.newIsoRaster.setVisible(false);
-            this.newTopoRaster.setVisible(false);
             this.currentRaster = this.constants.TerrainLayerName;
         } else if (id === 4) {
-            this.oldTerrainRaster.setVisible(false);
-            this.oldIsoRaster.setVisible(false);
-            this.oldTopoRaster.setVisible(false);
-            this.newTerrainRaster.setVisible(false);
             this.newIsoRaster.setVisible(true);
-            this.newTopoRaster.setVisible(false);
             this.currentRaster = this.constants.IsoLayerName;
-        } else {
-            this.oldTerrainRaster.setVisible(false);
-            this.oldIsoRaster.setVisible(false);
-            this.oldTopoRaster.setVisible(false);
-            this.newTerrainRaster.setVisible(false);
-            this.newIsoRaster.setVisible(false);
+        } else if (id === 5) {
             this.newTopoRaster.setVisible(true);
             this.currentRaster = this.constants.TopoLayerName;
+        } else if (id === 6) {
+            this.Jan18TerrainRaster.setVisible(true);
+            this.currentRaster = this.constants.Jan18TerrainLayerName;
+        } else if (id === 7) {
+            this.Jan18IsoRaster.setVisible(true);
+            this.currentRaster = this.constants.Jan18IsoLayerName;
+        } else if (id === 8) {
+            this.Jan18TopoRaster.setVisible(true);
+            this.currentRaster = this.constants.Jan18TopoLayerName;
+        } else if (id === 9) {
+            this.Jan18RouteRaster.setVisible(true);
+            this.currentRaster = this.constants.Jan18RoutesLayerName;
         }
+
+    }
+
+    hideAllLayers() {
+        this.newIsoRaster.setVisible(false);
+        this.newTopoRaster.setVisible(false);
+        this.newTerrainRaster.setVisible(false);
+        this.oldTerrainRaster.setVisible(false);
+        this.oldIsoRaster.setVisible(false);
+        this.oldTopoRaster.setVisible(false);
+        this.Jan18IsoRaster.setVisible(false);
+        this.Jan18TerrainRaster.setVisible(false);
+        this.Jan18TopoRaster.setVisible(false);
+        this.Jan18RouteRaster.setVisible(false);
     }
 } // end comp

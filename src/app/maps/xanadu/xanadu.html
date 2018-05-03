@@ -11,6 +11,7 @@
 </p-toolbar>
 
 <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+    <h4>Layer Toggles</h4>
     <p class="layer-toggle" (click)="toggleLayer($event, 'Starter Deeds Layer')">
         <i class="fa fa-trophy fa-2x" [ngClass]="{ 'layer-selected': showStartingDeeds }"></i>(S)tartin' Towns
     </p>
@@ -27,15 +28,21 @@
         <i class="fa fa-th fa-2x" [ngClass]="{ 'layer-selected': showGrid }"></i>(G)rid
     </p>
 
-    <h6>2016 Nov Layers</h6>
+    <h6>2018 Jan Layers</h6>
     <p>
-        <button pButton label="Terr" (click)="mainLayer(0)" title="View terrain layer">
+        <button pButton label="Terr" (click)="mainLayer(6)" title="View terrain layer">
         </button>
-        <button pButton label="Iso" (click)="mainLayer(1)" title="View isometric layer">
+        <button pButton label="Iso" (click)="mainLayer(7)" title="View isometric layer">
         </button>
-        <button pButton label="Topo" (click)="mainLayer(2)" title="View topological layer">
+        <button pButton label="Topo" (click)="mainLayer(8)" title="View topological layer">
         </button>
     </p>
+
+    <p>
+        <button pButton label="Routes" (click)="mainLayer(9)" title="View routes layer">
+        </button>
+    </p>
+
 
     <h6>2017 Aug Layers</h6>
     <p>
@@ -46,6 +53,18 @@
         <button pButton label="Topo" (click)="mainLayer(5)" title="View topological layer">
         </button>
     </p>
+
+    <h6>2016 Nov Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(0)" title="View terrain layer">
+        </button>
+        <button pButton label="Iso" (click)="mainLayer(1)" title="View isometric layer">
+        </button>
+        <button pButton label="Topo" (click)="mainLayer(2)" title="View topological layer">
+        </button>
+    </p>
+
+
 
     <h6>Find a Deed</h6>
     <p>

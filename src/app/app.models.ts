@@ -82,6 +82,10 @@ export class Constants {
     TerrainLayerName: string = "Terrain (2017 Aug)";
     IsoLayerName: string = "Isometric (2017 Aug)";
     TopoLayerName: string = "Topological (2017 Aug)";
+    Jan18TerrainLayerName: string = "Terrain (2018 Jan)";
+    Jan18IsoLayerName: string = "Isometric (2018 Jan)";
+    Jan18TopoLayerName: string = "Topological (2018 Jan)";
+    Jan18RoutesLayerName: string = "Routes (2018 Jan)";
 
     defaultTextFill: any = new ol.style.Fill({
         // color: '#FFF'
