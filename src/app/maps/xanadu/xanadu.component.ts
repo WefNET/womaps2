@@ -80,7 +80,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     dFill: any = this.constants.defaultTextFill;
     dText: any = this.constants.defaultTextStroke;
 
-    panelOpenState: boolean = false;
+    visibleSidebar1: boolean = false;
 
     @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
 

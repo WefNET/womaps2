@@ -15,8 +15,9 @@ import { DeedsService } from './services/deeds.service';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'xanadu', component: XanaduComponent },
-  { path: 'maps/xanadu', component: XanaduComponent }
-  // { path: '**', component: PageNotFoundComponent }
+  { path: 'maps/xanadu', component: XanaduComponent },
+  { path: 'Maps/Xanadu', component: XanaduComponent },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({
