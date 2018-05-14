@@ -179,7 +179,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.deedsService.getXanaduDeeds()
             .subscribe(data => {
-                this.deeds = data.rows;
+                this.deeds = data['rows']
 
                 console.log("Deeds", this.deeds);
                 this.renderOpenLayers();

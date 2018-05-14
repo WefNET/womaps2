@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -17,7 +17,7 @@ const appRoutes: Routes = [
   { path: 'xanadu', component: XanaduComponent },
   { path: 'maps/xanadu', component: XanaduComponent },
   { path: 'Maps/Xanadu', component: XanaduComponent },
-  { path: '**', component: HomeComponent }
+  { path: '*', component: HomeComponent }
 ];
 
 @NgModule({
@@ -29,7 +29,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
