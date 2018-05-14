@@ -25,7 +25,7 @@ var canals = [
     { "X1": 4171, "Y1": -2345, "X2": 4321, "Y2": -2255, "Name": "MK Tunnel", "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": "Boats Only" },
     { "X1": 6597, "Y1": -1931, "X2": 6891, "Y2": -1931, "Name": "S/W Tunnel", "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": null },
     { "X1": 4336, "Y1": -4775, "X2": 4336, "Y2": -4752, "Name": "Snowtech's Lake Connection", "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": null },
-    { "X1": 4830, "Y1": -4775, "X2": 4318, "Y2": -4775, "Name": "Snowtech's Tunnel", "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": null },
+    { "X1": 4830, "Y1": -4775, "X2": 4318, "Y2": -4775, "Name": "East Hammer Lake Canal", "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": null },
     { "X1": 5231, "Y1": -3316, "X2": 5231, "Y2": -3049, "Name": "T&T Tunnel", "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": "Boats and Land" },
     { "X1": 1721, "Y1": -4834, "X2": 1296, "Y2": -4833, "Name": "West Hammer Lake Canal 1", "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": null },
     { "X1": 1033, "Y1": -4738, "X2": 311, "Y2": -4736, "Name": "West Hammer Lake Canal 2", "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": null },
