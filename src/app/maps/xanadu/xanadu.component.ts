@@ -1,7 +1,7 @@
-// import { Component, OnInit } from '@angular/core';
 import { HostListener, AfterContentInit, AfterViewInit, Component, ElementRef, ViewChild, OnInit } from "@angular/core";
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Dropdown } from 'primeng/dropdown';
 
 import { DeedsService } from './../../services/deeds.service';
 
@@ -39,7 +39,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     bridges: IBridge[];
     landmarks: ILandmark[];
 
-    clickedUrlValue: string;
+    clickedUrlValue: string = "Single click anywhere on map to get shareable link";
     startingX: string;
     startingY: string;
     startingZ: string;
@@ -63,6 +63,22 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     Jan18TopoRaster: any;
     Jan18IsoRaster: any;
     Jan18RouteRaster: any;
+
+    drawingSource: any;
+    drawingVector: any;
+    displayDrawingTools: boolean = false;
+    draw: any;
+    snap: any;
+    tools = [
+        { label: 'None', value: 'None' },
+        { label: 'Point', value: 'Point' },
+        { label: 'LineString', value: 'LineString' },
+        { label: 'Polygon', value: 'Polygon' },
+        { label: 'Circle', value: 'Circle' },
+        { label: 'Clear All', value: 'Clear' }
+    ];
+
+    displayAnchorTools: boolean = false;
 
     currentRaster: string = this.constants.Jan18TerrainLayerName;
 
@@ -551,6 +567,27 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             name: this.constants.Jan18RoutesLayerName,
         });
 
+        this.drawingSource = new ol.source.Vector();
+        this.drawingVector = new ol.layer.Vector({
+            name: "Drawing Layer",
+            source: this.drawingSource,
+            style: new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255, 255, 255, 0.2)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc33',
+                    width: 2
+                }),
+                image: new ol.style.Circle({
+                    radius: 7,
+                    fill: new ol.style.Fill({
+                        color: '#ffcc33'
+                    })
+                })
+            })
+        });
+
         this.hideAllLayers();
         this.Jan18TerrainRaster.setVisible(true);
 
@@ -571,6 +608,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.canalLayer,
                 this.deedsLayer,
                 this.staringTownsLayer,
+                this.drawingVector
             ],
             target: 'map',
             controls: controls,
@@ -580,6 +618,9 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 maxResolution: mapTileGrid.getResolution(mapMinZoom)
             })
         });
+
+        // var modify = new ol.interaction.Modify({ source: this.drawingSource });
+        // this.map.addInteraction(modify);
 
         this.map.on('singleclick', function (evt) {
             console.log("Event", evt);
@@ -602,13 +643,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             evt.map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
                 //do something
                 console.log("Feature at pixel", feature);
-                console.log("Feature Goom", feature.getGeometry());
+                console.log("Feature Geometry", feature.getGeometry());
             });
 
             console.log("Clicked Url", this.clickedUrlValue);
 
-            // prompt("Return URL:", this.clickedUrlValue);
-        });
+        }.bind(this));
     }
 
     // After view init the map target can be set!
@@ -620,6 +660,52 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         //this.map.setTarget(this.mapElement.nativeElement.id);
     }
 
+    addInteractions = function (selectedDrawingTool: string) {
+
+        this.draw = new ol.interaction.Draw({
+            source: this.drawingSource,
+            type: selectedDrawingTool
+            // type: "LineString"
+        });
+
+        this.map.addInteraction(this.draw);
+        this.snap = new ol.interaction.Snap({ source: this.drawingSource });
+
+        console.log("Draw", this.draw);
+        console.log("Snap", this.snap);
+
+        this.map.addInteraction(this.snap);
+    }
+
+    showDrawingTools() {
+        this.displayDrawingTools = !this.displayDrawingTools;
+    }
+
+    selectTool(event: Event) {
+        this.map.removeInteraction(this.draw);
+        this.map.removeInteraction(this.snap);
+
+        let tool: string = this.tools[event["index"]].value;
+
+        if (tool === "None") {
+            // oh well
+        }
+        else {
+            if (tool === "Clear") {
+                this.drawingSource.clear();
+
+
+            }
+            else {
+                this.addInteractions(tool);
+            }
+        }
+    }
+
+    showAnchorTools() {
+        this.displayAnchorTools = !this.displayAnchorTools;
+    }
+ 
     toggleLayer(event: any, layerName: string) {
 
         let group = this.map.getLayerGroup();

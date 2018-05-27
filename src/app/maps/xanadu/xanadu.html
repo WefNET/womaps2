@@ -5,7 +5,6 @@
     </div>
 
     <div class="ui-toolbar-group-right">
-        <span class="right-do">{{clickedUrlValue}}</span>
         <span class="toolbar-header">{{currentRaster}}</span>
     </div>
 </p-toolbar>
@@ -64,8 +63,6 @@
         </button>
     </p>
 
-
-
     <h6>Find a Deed</h6>
     <p>
         <select *ngIf="deeds != null" placeholder="Find a Deed" (change)="selectchange($event)" style="font-size: 14px;">
@@ -77,3 +74,18 @@
 </p-sidebar>
 
 <div #mapElement id="map" class="map"> </div>
+
+<div class="drawing-tools">
+    <p-button icon="fa fa-fw fa-pencil" (click)="showDrawingTools()" title="Activate drawing toolage"></p-button>
+</div>
+<div class="drawing-tools-panel" [hidden]="!displayDrawingTools">
+    <!-- <p-dropdown [options]="tools" [(ngModel)]="selectedDrawingTool" placeholder="Select a Tool"></p-dropdown> -->
+    <p-selectButton [options]="tools" (onOptionClick)="selectTool($event)"></p-selectButton>
+</div>
+
+<div class="anchor-tools">
+    <p-button icon="fa fa-fw fa-anchor" (click)="showAnchorTools()" title="Show 'single-click' return URL"></p-button>
+</div>
+<div class="anchor-tools-panel" [hidden]="!displayAnchorTools">
+    <input type="text" pInputText [(ngModel)]="clickedUrlValue" />
+</div>

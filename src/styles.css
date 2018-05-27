@@ -45,3 +45,9 @@ div.ui-toolbar {
     color: white;
     margin-bottom: 0;
 }
+
+.ui-sidebar {
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+  }
+  

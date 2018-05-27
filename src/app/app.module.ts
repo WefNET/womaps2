@@ -2,9 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule } from 'primeng/primeng';
+import { ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule, SelectButtonModule, InputTextModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
     ),
-    ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule
+    FormsModule,
+    ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarModule, PanelMenuModule, SidebarModule, AutoCompleteModule, DropdownModule, SelectButtonModule, InputTextModule
   ],
   providers: [
     DeedsService,

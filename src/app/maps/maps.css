@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { margin:0; padding: 0; height: 100%; width: 100%; }
-body { width:100%; height:100%; background: #ffffff; }
-#map { height: 100%; width: 100%; background-color: #FFFFFF; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  background-color: #FFFFFF;
+}
 
 .header-icon {
   padding: 0 14px;
@@ -38,6 +53,38 @@ div.ol-full-screen {
 
 .ol-touch .rotate-north {
   top: 80px;
+}
+
+.drawing-tools {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+
+.anchor-tools {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+.drawing-tools-panel {
+  position: fixed;
+  bottom: 10px;
+  left: 48px;
+  opacity: 0.8;
+}
+
+.anchor-tools-panel {
+  position: fixed;
+  bottom: 10px;
+  right: 48px;
+  opacity: 0.8;
+}
+
+.anchor-tools-panel  .ui-inputtext {
+  /* padding: 0 !important; */
+  width: 400px;
+  font-size: smaller;
 }
 
 .leftpanel-scrolling-content {
