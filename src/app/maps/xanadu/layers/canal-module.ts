@@ -4,7 +4,7 @@ var canals = [
     { "X1": 2964, "Y1": -1066, "X2": 3023, "Y2": -1457, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": "Knarr" },
     { "X1": 2722, "Y1": -481, "X2": 2746, "Y2": -662, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": "Knarr" },
     { "X1": 2937, "Y1": -441, "X2": 2923, "Y2": -614, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": "Knarr" },
-    { "X1": 3947, "Y1": -5397, "X2": 3963, "Y2": -5878, "Name": null, "IsCanal": true, "IsTunnel": false, "AllBoats": false, "Notes": "Knarr" },
+    { "X1": 3947, "Y1": -5397, "X2": 3963, "Y2": -5878, "Name": null, "IsCanal": true, "IsTunnel": false, "AllBoats": true, "Notes": "Knarr" },
     { "X1": 7105, "Y1": -4289, "X2": 7105, "Y2": -4031, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": null },
     { "X1": 2650, "Y1": -4050, "X2": 2650, "Y2": -3244, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": false, "Notes": "KNarr & Small Boats" },
     { "X1": 4784, "Y1": -995, "X2": 4784, "Y2": -994, "Name": null, "IsCanal": true, "IsTunnel": true, "AllBoats": true, "Notes": null },
