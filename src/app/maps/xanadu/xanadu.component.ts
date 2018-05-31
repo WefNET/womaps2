@@ -9,9 +9,10 @@ import { IDeed, IBoringDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmar
 
 // import { LandmarkLayer } from './layers/landmark.module'
 // import { RoadLayer } from './layers/road.module'
-import { StartingDeedLayer } from './layers/starting-towns.module'
-import { BridgeLayer } from './layers/bridge-module'
-import { CanalLayer } from './layers/canal-module'
+import { StartingDeedLayer } from './layers/starting-towns.module';
+import { BridgeLayer } from './layers/bridge-module';
+import { CanalLayer } from './layers/canal-module';
+import { GridLayer} from './layers/grid.module';
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -34,9 +35,10 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     constants: Constants = new Constants();
 
     map: any;
-    deeds: IBoringDeed[];
-    canals: ICanal[];
-    bridges: IBridge[];
+
+    deeds: IBoringDeed[] = [];
+    canals: ICanal[] = [];
+    bridges: IBridge[] = [];
     landmarks: ILandmark[];
 
     clickedUrlValue: string = "Single click anywhere on map to get shareable link";
@@ -188,16 +190,58 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.startingZ = params["z"];
             });
 
-        // this.deedsService.getData()
-        //     .subscribe(data => {
-        //         this.renderOpenLayers(data);
-        //     })
-
-        this.deedsService.getXanaduDeeds()
+        this.deedsService.getXanaduData()
             .subscribe(data => {
-                this.deeds = data['rows']
+                // console.log("Combined data", data);
+                var deeds = data["valueRanges"][0].values;
 
-                console.log("Deeds", this.deeds);
+                deeds.forEach(deed => {
+                    var d = new IBoringDeed();
+
+                    d.name = deed[0];
+                    d.x = deed[1];
+                    d.y = deed[2];
+
+                    this.deeds.push(d);
+                });
+
+                var canals = data["valueRanges"][1].values;
+                // console.log("Canals", canals)
+
+                canals.forEach(canal => {
+                    var c = new ICanal();
+
+                    // ["Ageless Tunnel", "5517", "-1412", "5351", "-1482", "TRUE", "TRUE", "TRUE"]
+                    c.Name = canal[0];
+                    c.X1 = canal[1];
+                    c.Y1 = canal[2];
+                    c.X2 = canal[3];
+                    c.Y2 = canal[4];
+                    c.IsCanal = canal[5] == "TRUE";
+                    c.IsTunnel = canal[6] == "TRUE";
+                    c.AllBoats = canal[7] == "TRUE";
+
+                    this.canals.push(c);
+                });
+
+                var bridges = data["valueRanges"][2].values;
+
+                bridges.forEach(bridge => {
+                    var b = new IBridge();
+
+                    b.Name = bridge[0];
+                    b.X1 = bridge[1];
+                    b.Y1 = bridge[2];
+                    b.X2 = bridge[3];
+                    b.Y2 = bridge[4];
+
+                    this.bridges.push(b);
+                });
+
+                // console.log("New Deeds", this.deeds);
+                // console.log("New Canals", this.canals);
+                // console.log("New Bridges", this.bridges);
+
                 this.renderOpenLayers();
             })
     }
@@ -205,13 +249,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     renderOpenLayers(): void {
         console.log("Rendering function called");
 
-        // this.deeds = data;
-        // this.canals = data.Canals;
-        // this.bridges = data.Bridges;
-        // this.landmarks = data.Landmarks;
-
         var controls = [
-            // new ol.control.Attribution(),
             new ol.control.MousePosition({
                 undefinedHTML: 'outside',
                 coordinateFormat: function (coordinate) {
@@ -222,11 +260,11 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             new ol.control.FullScreen(),
         ];
 
-        // les bridge
+        // les bridges
         var bridgeModule = new BridgeLayer();
 
         this.bridgeLayer = new ol.layer.Vector({
-            source: bridgeModule.generateSource(),
+            source: bridgeModule.generateSource(this.bridges),
             name: this.constants.BridgeLayerName,
             style: bridgeModule.styleFunction
         });
@@ -235,9 +273,17 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         var canalModule = new CanalLayer();
 
         this.canalLayer = new ol.layer.Vector({
-            source: canalModule.generateSource(),
+            source: canalModule.generateSource(this.canals),
             name: this.constants.CanalLayerName,
             style: canalModule.styleFunction
+        })
+
+        var gridModule = new GridLayer();
+
+        this.gridLayer = new ol.layer.Vector({
+            source: gridModule.generateSource(),
+            name: this.constants.GridLayerName,
+            style: gridModule.styleFunction
         })
 
         // guard tower feature
@@ -293,103 +339,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         //     name: "Roads",
         //     style: rml.styleFunction
         // })
-
-        // grid layer stuff
-        var gridSrc = new ol.source.Vector();
-
-        var gridLineStyleFunction = function (feature, resolution) {
-            // console.log("Resolution", resolution);
-
-            var fontSize = (14 / resolution) + 16;
-
-            if (resolution >= 16) {
-                fontSize = 8;
-            }
-
-            return [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: 'rgba(103, 207, 230, 0.6)',
-                        width: 2
-                    }),
-                    text: new ol.style.Text({
-                        font: '' + fontSize + 'px Calibri,sans-serif',
-                        text: feature.get('name'),
-                        textBaseline: 'middle',
-                        textAlign: 'center',
-                        fill: new ol.style.Fill({
-                            color: 'rgba(103, 207, 230, 0.6)',
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'rgba(103, 207, 230, 0.6)',
-                            width: 1,
-                        })
-                    })
-                })
-            ]
-        };
-
-        // grid lines 
-        var gridJSON = [];
-
-        // horiz
-        for (var x = 0; x < 20; x++) {
-            var y = -((x * 410) + 362);
-            gridJSON.push({
-                "StartX": 0, "StartY": y, "EndX": 8192, "EndY": y
-            });
-
-            var horizLineFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[0, y], [8192, y]]),
-                name: ""
-            });
-
-            gridSrc.addFeature(horizLineFeature);
-        }
-
-        // vertical
-        for (var y = 0; y < 20; y++) {
-            var x = (y * 410) + 362;
-            gridJSON.push({
-                "StartX": x, "StartY": 0, "EndX": x, "EndY": -8192
-            });
-
-            var vertLineFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[x, 0], [x, -8192]]),
-                name: ""
-            });
-
-            gridSrc.addFeature(vertLineFeature);
-        }
-
-        // grid text
-        var gridPoints = [];
-        var gridX = ["B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"];
-
-        for (var x = 0; x < 20; x++) {
-            var yC = -(x * 410) + 50;
-
-            for (var y = 0; y < 20; y++) {
-                var xC = (y * 410) - 40;
-
-                var yDisplay = y + 7;
-                var gridID = gridX[x] + " " + yDisplay;
-                gridPoints.push({ "cX": xC, "cY": yC, "GridID": gridID });
-
-                var gridNameFeature = new ol.Feature({
-                    geometry: new ol.geom.Point([xC + 205, yC - 205]),
-                    name: gridID
-                });
-
-                gridSrc.addFeature(gridNameFeature);
-            }
-        }
-
-        this.gridLayer = new ol.layer.Vector({
-            source: gridSrc,
-            name: this.constants.GridLayerName,
-            style: gridLineStyleFunction
-        });
 
         // starter towns
         var sdm = new StartingDeedLayer();
@@ -705,7 +654,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     showAnchorTools() {
         this.displayAnchorTools = !this.displayAnchorTools;
     }
- 
+
     toggleLayer(event: any, layerName: string) {
 
         let group = this.map.getLayerGroup();

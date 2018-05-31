@@ -7,7 +7,7 @@ export interface IDeed {
     Notes: string;
 }
 
-export interface IBoringDeed {
+export class IBoringDeed {
     name: string;
     x: number;
     y: number
@@ -31,7 +31,7 @@ export interface IStartingDeed {
     Y: number;
 }
 
-export interface ICanal {
+export class ICanal {
     ID: number;
     Server: number;
     X1: number;
@@ -45,16 +45,12 @@ export interface ICanal {
     Notes: string;
 }
 
-export interface IBridge {
-    ID: number;
-    Server: number;
+export class IBridge {
+    Name: string;
     X1: number;
     Y1: number;
     X2: number;
     Y2: number;
-    Width: number;
-    Name: string;
-    Notes: string;
 }
 
 export interface ILandmark {
