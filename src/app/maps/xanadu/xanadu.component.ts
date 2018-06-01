@@ -13,6 +13,7 @@ import { StartingDeedLayer } from './layers/starting-towns.module';
 import { BridgeLayer } from './layers/bridge-module';
 import { CanalLayer } from './layers/canal-module';
 import { GridLayer} from './layers/grid.module';
+import { LandmarkLayer} from './layers/landmark-module';
 
 // This is necessary to access ol3!
 declare var ol: any;
@@ -39,7 +40,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     deeds: IBoringDeed[] = [];
     canals: ICanal[] = [];
     bridges: IBridge[] = [];
-    landmarks: ILandmark[];
+    landmarks: ILandmark[] = [];
 
     clickedUrlValue: string = "Single click anywhere on map to get shareable link";
     startingX: string;
@@ -51,7 +52,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     gridLayer: any;
     canalLayer: any;
     bridgeLayer: any;
-    // landmarkLayer: any;
+    landmarkLayer: any;
 
     oldTerrainRaster: any;
     oldTopoRaster: any;
@@ -192,7 +193,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.deedsService.getXanaduData()
             .subscribe(data => {
-                // console.log("Combined data", data);
                 var deeds = data["valueRanges"][0].values;
 
                 deeds.forEach(deed => {
@@ -206,7 +206,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 });
 
                 var canals = data["valueRanges"][1].values;
-                // console.log("Canals", canals)
 
                 canals.forEach(canal => {
                     var c = new ICanal();
@@ -238,9 +237,23 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                     this.bridges.push(b);
                 });
 
+                var landmarks = data["valueRanges"][3].values;
+
+                landmarks.forEach(mark => {
+                    var l = new ILandmark();
+
+                    l.Name = mark[0];
+                    l.X1 = mark[1];
+                    l.Y1 = mark[2];
+                    l.LandmarkType = mark[3];
+
+                    this.landmarks.push(l);
+                });
+
                 // console.log("New Deeds", this.deeds);
                 // console.log("New Canals", this.canals);
                 // console.log("New Bridges", this.bridges);
+                console.log("New Landmarks", this.landmarks);
 
                 this.renderOpenLayers();
             })
@@ -286,59 +299,15 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             style: gridModule.styleFunction
         })
 
-        // guard tower feature
-        var gts = [
-            [6323, -2046],
-            [6533, -1986],
-            [6472, -2015],
-            [6584, -1992]
-        ];
+        // landmark layer
+        
+        var lml = new LandmarkLayer();
 
-        let lms = [
-            {
-                ID: 0,
-                LandmarkType: 0,
-                Server: 0,
-                X1: 6323,
-                Y1: -2046,
-                Name: "Who cares?",
-                Notes: ""
-            },
-            {
-                ID: 1,
-                LandmarkType: 1,
-                Server: 0,
-                X1: 6535,
-                Y1: -1935,
-                Name: "Lake Awesome",
-                Notes: ""
-            },
-            {
-                ID: 2,
-                LandmarkType: 1,
-                Server: 0,
-                X1: 6643,
-                Y1: -2428,
-                Name: "Summerholt Lake",
-                Notes: ""
-            },
-        ]
-
-        // var lml = new LandmarkLayer();
-
-        // this.landmarkLayer = new ol.layer.Vector({
-        //   source: lml.generateSource(lms),
-        //   name: this.constants.GuardTowerLayerName,
-        //   style: lml.styleFunction
-        // })
-
-        // var rml = new RoadLayer();
-
-        // var roadLayer = new ol.layer.Vector({
-        //     source: rml.generateSource(),
-        //     name: "Roads",
-        //     style: rml.styleFunction
-        // })
+        this.landmarkLayer = new ol.layer.Vector({
+          source: lml.generateSource(this.landmarks),
+          name: this.constants.LandmarkLayerName,
+          style: lml.styleFunction
+        })
 
         // starter towns
         var sdm = new StartingDeedLayer();
@@ -352,8 +321,6 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         var deedsSrc = new ol.source.Vector();
 
         var deedStyleFunction = function (feature, resolution) {
-            // console.log("Resolution", resolution);      
-
             let fontSize: number = resolution <= 0.125 ? 16 : 12;
             let name: string = feature.get('name');
             let notes: string = feature.get('notes');
@@ -552,7 +519,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.Jan18TopoRaster,
                 this.Jan18TerrainRaster,
                 this.Jan18RouteRaster,
-                // roadLayer,
+                this.landmarkLayer,
                 this.bridgeLayer,
                 this.canalLayer,
                 this.deedsLayer,

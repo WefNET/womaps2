@@ -21,7 +21,7 @@ export interface ServerData {
 }
 
 export enum LandmarkType {
-    GuardTower,
+    GuardTowerFreedom,
     BodyOfWater
 }
 
@@ -53,13 +53,11 @@ export class IBridge {
     Y2: number;
 }
 
-export interface ILandmark {
-    ID: number;
-    LandmarkType: LandmarkType;
-    Server: number;
+export class ILandmark {
+    Name: string;
     X1: number;
     Y1: number;
-    Name: string;
+    LandmarkType: string;    
     Notes: string;
 }
 
@@ -69,7 +67,7 @@ export class Constants {
     StarterDeedsLayerName: string = "Starter Deeds Layer";
     DeedLayerName: string = "Deeds Layer";
     GridLayerName: string = "Grid Layer";
-    GuardTowerLayerName: string = "Guard Tower Layer";
+    LandmarkLayerName: string = "Landmark Layer";
     CanalLayerName: string = "Canal Layer";
     BridgeLayerName: string = "Bridge Layer";
     Nov16TerrainLayerName: string = "Terrain (2016 Nov)";

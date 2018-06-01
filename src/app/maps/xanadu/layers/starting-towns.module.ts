@@ -77,6 +77,7 @@ export class StartingDeedLayer implements StartingTownModuleLayer {
                 text: new ol.style.Text({
                     font: '14px Calibri,sans-serif',
                     text: name,
+                    exceedLength: true,
                     textBaseline: 'middle',
                     textAlign: 'center',
                     fill: new ol.style.Fill({
