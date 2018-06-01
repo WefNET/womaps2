@@ -199,8 +199,8 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                     var d = new IBoringDeed();
 
                     d.name = deed[0];
-                    d.x = deed[1];
-                    d.y = deed[2];
+                    d.x = Number(deed[1]);
+                    d.y = Number(deed[2]);
 
                     this.deeds.push(d);
                 });
@@ -716,10 +716,14 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     gotoDeed(event: any, id: number) {
 
         let deed = this.deeds[id];
+        let x1: number = deed.x - 100;
+        let y1: number = deed.y - 100;
+        let x2: number = deed.x + 100;
+        let y2: number = deed.y + 100;
 
         console.log("Find a deed, deed found:", deed);
 
-        var extent = [deed.x - 100, deed.y - 100, deed.x + 100, deed.y + 100];
+        var extent = [x1, y1, x2, y2];
         console.log("Find a deed Extent:", extent);
         var view = this.map.getView();
         console.log("Find a deed View:", view);

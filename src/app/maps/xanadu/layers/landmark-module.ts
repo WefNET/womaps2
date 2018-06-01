@@ -33,6 +33,20 @@ export class LandmarkLayer implements LandmarkModuleLayer {
             return [ // gt
                 new ol.style.Style({
                     image: new ol.style.RegularShape({
+                        points: 4,
+                        radius: (1 / resolution) - 4,
+                        angle: Math.PI / 4,
+                        fill: new ol.style.Fill({
+                            color: "rgba(0, 0, 0, 0.4)"
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: "black",
+                            width: 1
+                        })
+                    })
+                }),
+                new ol.style.Style({
+                    image: new ol.style.RegularShape({
                         points: 30,
                         radius: 20 / resolution,
                         angle: Math.PI / 4,
