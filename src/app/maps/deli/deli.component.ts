@@ -5,26 +5,25 @@ import { Dropdown } from 'primeng/dropdown';
 
 import { DeedsService } from './../../services/deeds.service';
 
-import { IDeed, IBoringDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, ServerData, CustomColors } from './../../app.models';
+import { IDeed, IBoringDeed, IStartingDeed, ICanal, Constants, IBridge, ILandmark, IHighway, ServerData, CustomColors } from './../../app.models';
 
-// import { LandmarkLayer } from './layers/landmark.module'
-// import { RoadLayer } from './layers/road.module'
 import { StartingDeedLayer } from './layers/starting-towns.module';
 import { BridgeLayer } from './layers/bridge-module';
 import { CanalLayer } from './layers/canal-module';
 import { GridLayer } from './layers/grid.module';
 import { LandmarkLayer } from './layers/landmark-module';
+import { HighwayLayer } from './layers/highway-module';
 
-// This is necessary to access ol3!
+// This is necessary to access ol4!
 declare var ol: any;
 
 @Component({
-    selector: 'xanadu-map',
-    templateUrl: 'xanadu.html',
+    selector: 'deli-map',
+    templateUrl: 'deli.html',
     styleUrls: ['./../maps.css']
 })
 
-export class XanaduComponent implements OnInit, AfterViewInit {
+export class DeliComponent implements OnInit, AfterViewInit {
 
     // This is necessary to access the html element to set the map target (after view init)!
     @ViewChild("mapElement") mapElement: ElementRef;
@@ -41,6 +40,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     canals: ICanal[] = [];
     bridges: IBridge[] = [];
     landmarks: ILandmark[] = [];
+    roads: IHighway[] = [];
 
     clickedUrlValue: string = "Single click anywhere on map to get shareable link";
     startingX: string;
@@ -53,14 +53,15 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     canalLayer: any;
     bridgeLayer: any;
     landmarkLayer: any;
+    highwayLayer: any;
 
-    oldTerrainRaster: any;
-    oldTopoRaster: any;
-    oldIsoRaster: any;
+    // oldTerrainRaster: any;
+    // oldTopoRaster: any;
+    // oldIsoRaster: any;
 
-    newTerrainRaster: any;
-    newTopoRaster: any;
-    newIsoRaster: any;
+    // newTerrainRaster: any;
+    // newTopoRaster: any;
+    // newIsoRaster: any;
 
     Jan18TerrainRaster: any;
     Jan18TopoRaster: any;
@@ -109,26 +110,26 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         if (event.keyCode === 99 || event.keyCode === 67) {
             this.hideAllLayers();
             // ...
+            // if (this.currentRaster === this.constants.Jan18RoutesLayerName) {
+            //     this.oldTerrainRaster.setVisible(true);
+            //     this.currentRaster = this.constants.Nov16TerrainLayerName;
+            // } else if (this.currentRaster === this.constants.Nov16TerrainLayerName) {
+            //     this.oldIsoRaster.setVisible(true);
+            //     this.currentRaster = this.constants.Nov16IsoLayerName;
+            // } else if (this.currentRaster === this.constants.Nov16IsoLayerName) {
+            //     this.oldTopoRaster.setVisible(true);
+            //     this.currentRaster = this.constants.Nov16TopoLayerName;
+            // } else if (this.currentRaster === this.constants.Nov16TopoLayerName) {
+            //     this.newTerrainRaster.setVisible(true);
+            //     this.currentRaster = this.constants.TerrainLayerName;
+            // } else if (this.currentRaster === this.constants.TerrainLayerName) {
+            //     this.newIsoRaster.setVisible(true);
+            //     this.currentRaster = this.constants.IsoLayerName;
+            // } else if (this.currentRaster === this.constants.IsoLayerName) {
+            //     this.newTopoRaster.setVisible(true);
+            //     this.currentRaster = this.constants.TopoLayerName;
+            // }
             if (this.currentRaster === this.constants.Jan18RoutesLayerName) {
-                this.oldTerrainRaster.setVisible(true);
-                this.currentRaster = this.constants.Nov16TerrainLayerName;
-            } else if (this.currentRaster === this.constants.Nov16TerrainLayerName) {
-                this.oldIsoRaster.setVisible(true);
-                this.currentRaster = this.constants.Nov16IsoLayerName;
-            } else if (this.currentRaster === this.constants.Nov16IsoLayerName) {
-                this.oldTopoRaster.setVisible(true);
-                this.currentRaster = this.constants.Nov16TopoLayerName;
-            } else if (this.currentRaster === this.constants.Nov16TopoLayerName) {
-                this.newTerrainRaster.setVisible(true);
-                this.currentRaster = this.constants.TerrainLayerName;
-            } else if (this.currentRaster === this.constants.TerrainLayerName) {
-                this.newIsoRaster.setVisible(true);
-                this.currentRaster = this.constants.IsoLayerName;
-            } else if (this.currentRaster === this.constants.IsoLayerName) {
-                this.newTopoRaster.setVisible(true);
-                this.currentRaster = this.constants.TopoLayerName;
-            }
-            else if (this.currentRaster === this.constants.TopoLayerName) {
                 this.Jan18TerrainRaster.setVisible(true);
                 this.currentRaster = this.constants.Jan18TerrainLayerName;
             }
@@ -173,7 +174,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     }
 
     constructor(private deedsService: DeedsService, private route: ActivatedRoute, private title: Title) {
-        title.setTitle("Xanadu - WurmOnlineMaps.com")
+        title.setTitle("Deliverance - WurmOnlineMaps.com")
     }
 
     ngOnInit(): void {
@@ -193,7 +194,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.startingZ = params["z"];
             });
 
-        this.deedsService.getXanaduData()
+        this.deedsService.getDeliData()
             .subscribe(data => {
                 var deeds = data["valueRanges"][0].values;
 
@@ -202,7 +203,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
                     d.name = deed[0];
                     d.x = Number(deed[1]);
-                    d.y = Number(deed[2]);
+                    d.y = 0 - Number(deed[2]);
 
                     this.deeds.push(d);
                 });
@@ -215,9 +216,9 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                     // ["Ageless Tunnel", "5517", "-1412", "5351", "-1482", "TRUE", "TRUE", "TRUE"]
                     c.Name = canal[0];
                     c.X1 = canal[1];
-                    c.Y1 = canal[2];
+                    c.Y1 = 0 - Number(canal[2]);
                     c.X2 = canal[3];
-                    c.Y2 = canal[4];
+                    c.Y2 = 0 - Number(canal[4]);
                     c.IsCanal = canal[5] == "TRUE";
                     c.IsTunnel = canal[6] == "TRUE";
                     c.AllBoats = canal[7] == "TRUE";
@@ -232,9 +233,9 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
                     b.Name = bridge[0];
                     b.X1 = bridge[1];
-                    b.Y1 = bridge[2];
+                    b.Y1 = 0 - Number(bridge[2]);
                     b.X2 = bridge[3];
-                    b.Y2 = bridge[4];
+                    b.Y2 = 0 - Number(bridge[4]);
 
                     this.bridges.push(b);
                 });
@@ -246,16 +247,37 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
                     l.Name = mark[0];
                     l.X1 = mark[1];
-                    l.Y1 = mark[2];
+                    l.Y1 = 0 - Number(mark[2]);
                     l.LandmarkType = mark[3];
 
                     this.landmarks.push(l);
                 });
 
+                var highways = data["valueRanges"][4].values;
+
+                highways.forEach(highway => {
+                    var h = new IHighway();
+
+                    h.Name = highway[0];
+
+                    var coords = JSON.parse(highway[1]);
+
+                    coords.forEach(coord => {
+                        let y: number = coord[1];
+
+                        coord[1] = 0 - y;
+                    });
+
+                    h.Coordinates = coords;
+
+                    this.roads.push(h);
+                });
+
                 // console.log("New Deeds", this.deeds);
                 // console.log("New Canals", this.canals);
                 // console.log("New Bridges", this.bridges);
-                console.log("New Landmarks", this.landmarks);
+                // console.log("New Landmarks", this.landmarks);
+                console.log("New Highways", this.roads);
 
                 this.renderOpenLayers();
             })
@@ -268,7 +290,11 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             new ol.control.MousePosition({
                 undefinedHTML: 'outside',
                 coordinateFormat: function (coordinate) {
-                    return ol.coordinate.format(coordinate, '{x}, {y}', 0);
+                    let x = coordinate[0];
+                    let y = coordinate[1];
+
+                    return `${Math.round(x)}, ${Math.abs(Math.round(y))}`;
+                    // return ol.coordinate.format(coordinate, '{x}, {y}', 0);
                 }
             }),
             new ol.control.Zoom(),
@@ -319,6 +345,15 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             name: this.constants.StarterDeedsLayerName,
             style: sdm.styleFunction
         });
+
+        // highways
+        var highwayMod = new HighwayLayer();
+
+        this.highwayLayer = new ol.layer.Vector({
+            source: highwayMod.generateSource(this.roads),
+            name: "Highways",
+            style: highwayMod.styleFunction
+        })
 
         var deedsSrc = new ol.source.Vector();
 
@@ -404,11 +439,11 @@ export class XanaduComponent implements OnInit, AfterViewInit {
         });
 
         // oh shit the real map code kinda starts here!
-        var mapExtent = [0.00000000, -8192.00000000, 8192.00000000, 0.00000000];
+        var mapExtent = [0.00000000, -2048.00000000, 2048.00000000, 0.00000000];
         var mapMinZoom = 0;
         var mapMaxZoom = 5;
-        var mapMaxResolution = 1.00000000;
-        var tileExtent = [0.00000000, -8192.00000000, 8192.00000000, 0.00000000];
+        var mapMaxResolution = 0.25000000;
+        var tileExtent = [0.00000000, -2048.00000000, 2048.00000000, 0.00000000];
 
         var mapResolutions = [];
 
@@ -422,57 +457,57 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             resolutions: mapResolutions
         });
 
-        this.oldTerrainRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1611/terra/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.Nov16TerrainLayerName,
-        });
+        // this.oldTerrainRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/terra/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.Nov16TerrainLayerName,
+        // });
 
-        this.oldIsoRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1611/iso/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.Nov16IsoLayerName,
-        });
+        // this.oldIsoRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/iso/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.Nov16IsoLayerName,
+        // });
 
-        this.oldTopoRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1611/topo/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.Nov16TopoLayerName,
-        });
+        // this.oldTopoRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/topo/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.Nov16TopoLayerName,
+        // });
 
-        this.newTerrainRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1708/terrain/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.TerrainLayerName,
-        });
+        // this.newTerrainRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/terrain/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.TerrainLayerName,
+        // });
 
-        this.newIsoRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1708/iso/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.IsoLayerName,
-        });
+        // this.newIsoRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/iso/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.IsoLayerName,
+        // });
 
-        this.newTopoRaster = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1708/topo/{z}/{x}/{y}.png",
-                tileGrid: mapTileGrid,
-            }),
-            name: this.constants.TopoLayerName,
-        });
+        // this.newTopoRaster = new ol.layer.Tile({
+        //     source: new ol.source.XYZ({
+        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/topo/{z}/{x}/{y}.png",
+        //         tileGrid: mapTileGrid,
+        //     }),
+        //     name: this.constants.TopoLayerName,
+        // });
 
         this.Jan18IsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1801/iso/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/deli-1801/iso/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Jan18IsoLayerName,
@@ -480,7 +515,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.Jan18TopoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1801/topo/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/deli-1801/topo/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Jan18TopoLayerName,
@@ -488,7 +523,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.Jan18TerrainRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1801/terrain/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/deli-1801/terra/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Jan18TerrainLayerName,
@@ -496,7 +531,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.Jan18RouteRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
-                url: "http://jackswurmtools.com/Content/tiles/xan-1801/routes/{z}/{x}/{y}.png",
+                url: "http://jackswurmtools.com/Content/tiles/deli-1801/routes/{z}/{x}/{y}.png",
                 tileGrid: mapTileGrid,
             }),
             name: this.constants.Jan18RoutesLayerName,
@@ -528,12 +563,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
 
         this.map = new ol.Map({
             layers: [
-                this.newTerrainRaster,
-                this.newIsoRaster,
-                this.newTopoRaster,
-                this.oldTerrainRaster,
-                this.oldIsoRaster,
-                this.oldTopoRaster,
+                // this.newTerrainRaster,
+                // this.newIsoRaster,
+                // this.newTopoRaster,
+                // this.oldTerrainRaster,
+                // this.oldIsoRaster,
+                // this.oldTopoRaster,
                 this.Jan18IsoRaster,
                 this.Jan18TopoRaster,
                 this.Jan18TerrainRaster,
@@ -543,22 +578,17 @@ export class XanaduComponent implements OnInit, AfterViewInit {
                 this.canalLayer,
                 this.deedsLayer,
                 this.staringTownsLayer,
+                this.highwayLayer,
                 this.drawingVector
             ],
             target: 'map',
             controls: controls,
             view: new ol.View({
                 zoom: this.startingZ != null ? this.startingZ : 2,
-                center: [this.startingX != null ? this.startingX : 4096, this.startingY != null ? this.startingY : -4096],
+                center: [this.startingX != null ? this.startingX : 1024, this.startingY != null ? 0 - Number(this.startingY) : -1024],
                 maxResolution: mapTileGrid.getResolution(mapMinZoom)
             })
         });
-
-        this.map.on('pointermove', function (evt) {
-            evt.map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-                console.log("Feature at pixel", feature);
-            });
-        }.bind(this));
 
         this.map.on('singleclick', function (evt) {
             console.log("Event", evt);
@@ -574,7 +604,7 @@ export class XanaduComponent implements OnInit, AfterViewInit {
             var x = parseInt(coord[0]);
             var y = parseInt(coord[1]);
 
-            this.clickedUrlValue = `http://wurmonlinemaps.com/xanadu?x=${x}&y=${y}&z=${zoom}`;
+            this.clickedUrlValue = `http://wurmonlinemaps.com/deliverance?x=${x}&y=${Math.abs(y)}&z=${zoom}`;
 
             console.log("Event target", evt.target);
 
@@ -775,25 +805,25 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     mainLayer(id: number) {
         this.hideAllLayers();
 
-        if (id === 0) {
-            this.oldTerrainRaster.setVisible(true);
-            this.currentRaster = this.constants.Nov16TerrainLayerName;
-        } else if (id === 1) {
-            this.oldIsoRaster.setVisible(true);
-            this.currentRaster = this.constants.Nov16IsoLayerName;
-        } else if (id === 2) {
-            this.oldTopoRaster.setVisible(true);
-            this.currentRaster = this.constants.Nov16TopoLayerName;
-        } else if (id === 3) {
-            this.newTerrainRaster.setVisible(true);
-            this.currentRaster = this.constants.TerrainLayerName;
-        } else if (id === 4) {
-            this.newIsoRaster.setVisible(true);
-            this.currentRaster = this.constants.IsoLayerName;
-        } else if (id === 5) {
-            this.newTopoRaster.setVisible(true);
-            this.currentRaster = this.constants.TopoLayerName;
-        } else if (id === 6) {
+        // if (id === 0) {
+        //     this.oldTerrainRaster.setVisible(true);
+        //     this.currentRaster = this.constants.Nov16TerrainLayerName;
+        // } else if (id === 1) {
+        //     this.oldIsoRaster.setVisible(true);
+        //     this.currentRaster = this.constants.Nov16IsoLayerName;
+        // } else if (id === 2) {
+        //     this.oldTopoRaster.setVisible(true);
+        //     this.currentRaster = this.constants.Nov16TopoLayerName;
+        // } else if (id === 3) {
+        //     this.newTerrainRaster.setVisible(true);
+        //     this.currentRaster = this.constants.TerrainLayerName;
+        // } else if (id === 4) {
+        //     this.newIsoRaster.setVisible(true);
+        //     this.currentRaster = this.constants.IsoLayerName;
+        // } else if (id === 5) {
+        //     this.newTopoRaster.setVisible(true);
+        //     this.currentRaster = this.constants.TopoLayerName;
+        if (id === 6) {
             this.Jan18TerrainRaster.setVisible(true);
             this.currentRaster = this.constants.Jan18TerrainLayerName;
         } else if (id === 7) {
@@ -810,12 +840,12 @@ export class XanaduComponent implements OnInit, AfterViewInit {
     }
 
     hideAllLayers() {
-        this.newIsoRaster.setVisible(false);
-        this.newTopoRaster.setVisible(false);
-        this.newTerrainRaster.setVisible(false);
-        this.oldTerrainRaster.setVisible(false);
-        this.oldIsoRaster.setVisible(false);
-        this.oldTopoRaster.setVisible(false);
+        // this.newIsoRaster.setVisible(false);
+        // this.newTopoRaster.setVisible(false);
+        // this.newTerrainRaster.setVisible(false);
+        // this.oldTerrainRaster.setVisible(false);
+        // this.oldIsoRaster.setVisible(false);
+        // this.oldTopoRaster.setVisible(false);
         this.Jan18IsoRaster.setVisible(false);
         this.Jan18TerrainRaster.setVisible(false);
         this.Jan18TopoRaster.setVisible(false);

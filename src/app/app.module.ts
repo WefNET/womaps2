@@ -10,6 +10,7 @@ import { ToolbarModule, ButtonModule, SplitButtonModule, TabViewModule, MenubarM
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { XanaduComponent } from './maps/xanadu/xanadu.component';
+import { DeliComponent } from './maps/deli/deli.component';
 
 import { DeedsService } from './services/deeds.service';
 
@@ -18,6 +19,9 @@ const appRoutes: Routes = [
   { path: 'xanadu', component: XanaduComponent },
   { path: 'maps/xanadu', component: XanaduComponent },
   { path: 'Maps/Xanadu', component: XanaduComponent },
+  { path: 'deliverance', component: DeliComponent },
+  { path: 'maps/deliverance', component: DeliComponent },
+  { path: 'Maps/Deliverance', component: DeliComponent },
   { path: '*', component: HomeComponent }
 ];
 
@@ -25,7 +29,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    XanaduComponent
+    XanaduComponent,
+    DeliComponent
   ],
   imports: [
     BrowserModule,

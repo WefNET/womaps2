@@ -61,6 +61,11 @@ export class ILandmark {
     Notes: string;
 }
 
+export class IHighway {
+    Name: string;
+    Coordinates: any;
+}
+
 declare var ol: any;
 
 export class Constants {
