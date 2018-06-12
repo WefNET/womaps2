@@ -1,0 +1,92 @@
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" (click)="visibleSidebar1 = true" icon="fa-arrow-left"></button>
+        <span class="toolbar-header">Pristine Community Map 2.3</span>
+    </div>
+
+    <div class="ui-toolbar-group-right">
+        <span class="toolbar-header">{{currentRaster}}</span>
+    </div>
+</p-toolbar>
+
+<p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+    <h4>Layer Toggles</h4>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Starter Deeds Layer')">
+        <i class="fa fa-trophy fa-2x" [ngClass]="{ 'layer-selected': showStartingDeeds }"></i>(S)tartin' Towns
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Deeds Layer')">
+        <i class="fa fa-university fa-2x" [ngClass]="{ 'layer-selected': showDeeds }"></i>(D)eeds
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Bridge Layer')">
+        <i class="fa fa-road fa-2x" [ngClass]="{ 'layer-selected': showBridges }"></i>(B)ridges
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Canal Layer')">
+        <i class="fa fa-ship fa-2x" [ngClass]="{ 'layer-selected': showCanals }"></i>Canals/(T)unnels
+    </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Grid Layer')">
+        <i class="fa fa-th fa-2x" [ngClass]="{ 'layer-selected': showGrid }"></i>(G)rid
+    </p>
+
+    <h6>2018 Jan Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(6)" title="View terrain layer">
+        </button>
+        <button pButton label="Iso" (click)="mainLayer(7)" title="View isometric layer">
+        </button>
+        <button pButton label="Topo" (click)="mainLayer(8)" title="View topological layer">
+        </button>
+    </p>
+
+    <p>
+        <button pButton label="Routes" (click)="mainLayer(9)" title="View routes layer">
+        </button>
+    </p>
+
+
+    <!-- <h6>2017 Aug Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(3)" title="View terrain layer">
+        </button>
+        <button pButton label="Iso" (click)="mainLayer(4)" title="View isometric layer">
+        </button>
+        <button pButton label="Topo" (click)="mainLayer(5)" title="View topological layer">
+        </button>
+    </p>
+
+    <h6>2016 Nov Layers</h6>
+    <p>
+        <button pButton label="Terr" (click)="mainLayer(0)" title="View terrain layer">
+        </button>
+        <button pButton label="Iso" (click)="mainLayer(1)" title="View isometric layer">
+        </button>
+        <button pButton label="Topo" (click)="mainLayer(2)" title="View topological layer">
+        </button>
+    </p> -->
+
+    <h6>Find a Deed</h6>
+    <p>
+        <select *ngIf="deeds != null" placeholder="Find a Deed" (change)="selectchange($event)" style="font-size: 14px;">
+            <option *ngFor="let deed of deeds; let i = index;" value="{{i}}">
+                {{ deed.name }}
+            </option>
+        </select>
+    </p>
+</p-sidebar>
+
+<div #mapElement id="map" class="map" style="width: 100%; height: 100%; position:fixed"></div>
+
+
+<div class="drawing-tools">
+    <p-button icon="fa fa-fw fa-pencil" (click)="showDrawingTools()" title="Activate drawing toolage"></p-button>
+</div>
+<div class="drawing-tools-panel" [hidden]="!displayDrawingTools">
+    <!-- <p-dropdown [options]="tools" [(ngModel)]="selectedDrawingTool" placeholder="Select a Tool"></p-dropdown> -->
+    <p-selectButton [options]="tools" (onOptionClick)="selectTool($event)"></p-selectButton>
+</div>
+
+<div class="anchor-tools">
+    <p-button icon="fa fa-fw fa-anchor" (click)="showAnchorTools()" title="Show 'single-click' return URL"></p-button>
+</div>
+<div class="anchor-tools-panel" [hidden]="!displayAnchorTools">
+    <input type="text" pInputText [(ngModel)]="clickedUrlValue" />
+</div>

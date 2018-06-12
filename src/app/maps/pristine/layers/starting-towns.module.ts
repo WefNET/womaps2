@@ -1,31 +1,33 @@
-import { IHighway } from "../../../app.models";
-
 declare var ol: any;
 
+var startingTowns = [
+    {
+        "Name": "Greendog",
+        "Coords": [[630, -1079], [630, -1120], [670, -1120], [670, -1079]]
+    },
+];
 
-export interface HighwayModuleLayer {
-    generateSource(highways: IHighway[]): any;
+export interface StartingTownModuleLayer {
+    generateSource(): any;
     styleFunction(feature, resolution): any[];
 }
 
-export class HighwayLayer implements HighwayModuleLayer {
-    generateSource(highways: IHighway[]) {
+export class StartingDeedLayer implements StartingTownModuleLayer {
+    generateSource() {
 
-        var roadsSource = new ol.source.Vector();
+        var startingTownsSource = new ol.source.Vector();
 
-        for (let highway of highways) {
-
-            // console.log("Highway coords", highway.Coordinates);
+        for (let town of startingTowns) {
 
             var startingTownFeature = new ol.Feature({
-                geometry: new ol.geom.LineString(highway.Coordinates),
-                name: highway.Name
+                geometry: new ol.geom.Polygon([town.Coords]),
+                name: town.Name
             });
 
-            roadsSource.addFeature(startingTownFeature);
+            startingTownsSource.addFeature(startingTownFeature);
         }
-
-        return roadsSource;
+        
+        return startingTownsSource
     }
 
     styleFunction(feature, resolution) {
@@ -34,7 +36,7 @@ export class HighwayLayer implements HighwayModuleLayer {
         return [
             new ol.style.Style({
                 stroke: new ol.style.Stroke({
-                    color: "rgba(255, 255, 0, 0.5)",
+                    color: 'blue',
                     width: 3
                 }),
                 fill: new ol.style.Fill({

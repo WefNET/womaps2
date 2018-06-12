@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { XanaduComponent } from './maps/xanadu/xanadu.component';
 import { DeliComponent } from './maps/deli/deli.component';
+import { PristineComponent } from './maps/pristine/pristine.component';
 
 import { DeedsService } from './services/deeds.service';
 
@@ -20,8 +21,8 @@ const appRoutes: Routes = [
   { path: 'maps/xanadu', component: XanaduComponent },
   { path: 'Maps/Xanadu', component: XanaduComponent },
   { path: 'deliverance', component: DeliComponent },
-  { path: 'maps/deliverance', component: DeliComponent },
-  { path: 'Maps/Deliverance', component: DeliComponent },
+  { path: 'pristine', component: PristineComponent },
+
   { path: '*', component: HomeComponent }
 ];
 
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     XanaduComponent,
-    DeliComponent
+    DeliComponent,
+    PristineComponent
   ],
   imports: [
     BrowserModule,
