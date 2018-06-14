@@ -194,7 +194,7 @@ export class PristineComponent implements OnInit, AfterViewInit {
                 this.startingZ = params["z"];
             });
 
-        this.deedsService.getDeliData()
+        this.deedsService.getPristineData()
             .subscribe(data => {
                 var deeds = data["valueRanges"][0].values;
 
@@ -412,18 +412,6 @@ export class PristineComponent implements OnInit, AfterViewInit {
         }
 
         for (let deed of this.deeds) {
-            if (deed.name == "Summerholt" ||
-                deed.name == "Greymead" ||
-                deed.name == "Whitefay" ||
-                deed.name == "Glasshollow" ||
-                deed.name == "Newspring" ||
-                deed.name == "Esteron" ||
-                deed.name == "Linton" ||
-                deed.name == "Lormere" ||
-                deed.name == "Vrock Landing") {
-                continue;
-            }
-
             var deedFeature = new ol.Feature({
                 geometry: new ol.geom.Point([deed.x, deed.y]),
                 name: deed.name,
@@ -456,54 +444,6 @@ export class PristineComponent implements OnInit, AfterViewInit {
             minZoom: mapMinZoom,
             resolutions: mapResolutions
         });
-
-        // this.oldTerrainRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/terra/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16TerrainLayerName,
-        // });
-
-        // this.oldIsoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/iso/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16IsoLayerName,
-        // });
-
-        // this.oldTopoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/topo/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16TopoLayerName,
-        // });
-
-        // this.newTerrainRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/terrain/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.TerrainLayerName,
-        // });
-
-        // this.newIsoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/iso/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.IsoLayerName,
-        // });
-
-        // this.newTopoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/topo/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.TopoLayerName,
-        // });
 
         this.Jan18IsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
@@ -604,7 +544,7 @@ export class PristineComponent implements OnInit, AfterViewInit {
             var x = parseInt(coord[0]);
             var y = parseInt(coord[1]);
 
-            this.clickedUrlValue = `http://wurmonlinemaps.com/deliverance?x=${x}&y=${Math.abs(y)}&z=${zoom}`;
+            this.clickedUrlValue = `http://wurmonlinemaps.com/pristine?x=${x}&y=${Math.abs(y)}&z=${zoom}`;
 
             console.log("Event target", evt.target);
 

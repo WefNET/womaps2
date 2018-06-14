@@ -25,6 +25,11 @@ export class HomeComponent implements OnInit {
                         this.Go('xanadu');
                     }
                 },
+                {
+                    label: 'Pristine', icon: 'far fa-map', command: () => {
+                        this.Go('pristine');
+                    }
+                },
             ];
     }
 

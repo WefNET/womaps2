@@ -2,8 +2,8 @@ declare var ol: any;
 
 var startingTowns = [
     {
-        "Name": "Greendog",
-        "Coords": [[630, -1079], [630, -1120], [670, -1120], [670, -1079]]
+        "Name": "Blossom",
+        "Coords": [[869, -688], [869, -719], [838, -719], [838, -688]]
     },
 ];
 
