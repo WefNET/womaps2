@@ -29,52 +29,88 @@ export class LandmarkLayer implements LandmarkModuleLayer {
         var type = feature.get('type');
         let fontSize: number = 12 / resolution + 12;
 
-        if (type === "GuardTowerFreedom") {
-            return [ // gt
-                new ol.style.Style({
-                    image: new ol.style.RegularShape({
-                        points: 4,
-                        radius: (1 / resolution) - 4,
-                        angle: Math.PI / 4,
-                        fill: new ol.style.Fill({
-                            color: "rgba(0, 0, 0, 0.4)"
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: "black",
-                            width: 1
+        let style;
+
+        switch (type) {
+            case "GuardTowerFreedom":
+                style = [ // gt
+                    new ol.style.Style({
+                        image: new ol.style.RegularShape({
+                            points: 4,
+                            radius: (1 / resolution) - 4,
+                            angle: Math.PI / 4,
+                            fill: new ol.style.Fill({
+                                color: "rgba(0, 0, 0, 0.4)"
+                            }),
+                            stroke: new ol.style.Stroke({
+                                color: "black",
+                                width: 1
+                            })
+                        })
+                    }),
+                    new ol.style.Style({
+                        image: new ol.style.RegularShape({
+                            points: 30,
+                            radius: 20 / resolution,
+                            angle: Math.PI / 4,
+                            fill: new ol.style.Fill({
+                                color: 'rgba(12, 89, 29, 0.4)'
+                            }),
+                            stroke: new ol.style.Stroke({
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                width: 50 / resolution
+                            }),
                         })
                     })
-                }),
-                new ol.style.Style({
-                    image: new ol.style.RegularShape({
-                        points: 30,
-                        radius: 20 / resolution,
-                        angle: Math.PI / 4,
-                        fill: new ol.style.Fill({
-                            color: 'rgba(12, 89, 29, 0.4)'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'rgba(255, 255, 255, 0.05)',
-                            width: 50 / resolution
-                        }),
+                ]
+                break;
+            case "BodyOfWater":
+                style = [
+                    new ol.style.Style({
+                        text: new ol.style.Text({
+                            font: "" + fontSize + "px 'IM Fell English SC', serif",
+                            text: resolution <= 1 ? feature.get('name') : '',
+                            textBaseline: 'middle',
+                            textAlign: 'center',
+                            fill: new ol.style.Fill({
+                                color: "rgba(255, 0, 0, 0.9)"
+                            }),
+                        })
                     })
-                })
-            ]
-        }
-        else {
-            return [
-                new ol.style.Style({
-                    text: new ol.style.Text({
-                        font: "" + fontSize + "px 'IM Fell English SC', serif",
-                        text: resolution <= 1 ? feature.get('name') : '',
-                        textBaseline: 'middle',
-                        textAlign: 'center',
-                        fill: new ol.style.Fill({
-                            color: "rgba(255, 0, 0, 0.9)"
-                        }),
+                ]
+                break;
+            case "Tar":
+                style = [
+                    new ol.style.Style({
+                        image: new ol.style.Icon({
+                            src: '/assets/drop-silhouette.png'
+                        })
                     })
-                })
-            ]
+                ]
+                break;
+            case "Clay":
+                style = [
+                    new ol.style.Style({
+                        image: new ol.style.RegularShape({
+                            points: 30,
+                            radius: 16,
+                            angle: Math.PI / 4,
+                            fill: new ol.style.Fill({
+                                color: 'rgba(245, 245, 245, 0.9)'
+                            }),
+                        })
+                    }),
+                    new ol.style.Style({
+                        image: new ol.style.Icon({
+                            src: '/assets/native-american-pot.png',
+                        })
+                    })
+                ]
+                break;
+            default:
+                break;
         }
+
+        return style;
     }
 }
