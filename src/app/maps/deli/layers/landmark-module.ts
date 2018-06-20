@@ -31,6 +31,13 @@ export class LandmarkLayer implements LandmarkModuleLayer {
 
         let style;
 
+        let scaleTarClay: number;
+
+                if (resolution >= 2) scaleTarClay = 0.5;
+                else if (resolution >= 0.5) scaleTarClay = 1
+                else scaleTarClay = 2;
+
+
         switch (type) {
             case "GuardTowerFreedom":
                 style = [ // gt
@@ -83,26 +90,31 @@ export class LandmarkLayer implements LandmarkModuleLayer {
                 style = [
                     new ol.style.Style({
                         image: new ol.style.Icon({
-                            src: '/assets/drop-silhouette.png'
+                            src: '/assets/drop-silhouette.png',
+                            scale: scaleTarClay
                         })
                     })
                 ]
                 break;
             case "Clay":
+                
+
                 style = [
-                    new ol.style.Style({
-                        image: new ol.style.RegularShape({
-                            points: 30,
-                            radius: 16,
-                            angle: Math.PI / 4,
-                            fill: new ol.style.Fill({
-                                color: 'rgba(245, 245, 245, 0.9)'
-                            }),
-                        })
-                    }),
+                    // new ol.style.Style({
+                    //     image: new ol.style.RegularShape({
+                    //         points: 30,
+                    //         radius: 16,
+                    //         angle: Math.PI / 4,
+                    //         fill: new ol.style.Fill({
+                    //             color: 'rgba(245, 245, 245, 0.9)'
+                    //         }),
+                    //     })
+                    // }),
                     new ol.style.Style({
                         image: new ol.style.Icon({
                             src: '/assets/native-american-pot.png',
+                            // color: '#ff8800',
+                            scale: scaleTarClay
                         })
                     })
                 ]

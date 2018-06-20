@@ -13,13 +13,13 @@ export class GridLayer implements GridModuleLayer {
 
         // horiz
         for (var x = 0; x < 20; x++) {
-            var y = -((x * 410) + 362);
+            var y = -((x * 102) + 87);
             gridJSON.push({
-                "StartX": 0, "StartY": y, "EndX": 8192, "EndY": y
+                "StartX": 0, "StartY": y, "EndX": 2048, "EndY": y
             });
 
             var horizLineFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[0, y], [8192, y]]),
+                geometry: new ol.geom.LineString([[0, y], [2048, y]]),
                 name: ""
             });
 
@@ -28,13 +28,13 @@ export class GridLayer implements GridModuleLayer {
 
         // vertical
         for (var y = 0; y < 20; y++) {
-            var x = (y * 410) + 362;
+            var x = (y * 102) + 92;
             gridJSON.push({
-                "StartX": x, "StartY": 0, "EndX": x, "EndY": -8192
+                "StartX": x, "StartY": 0, "EndX": x, "EndY": -2084
             });
 
             var vertLineFeature = new ol.Feature({
-                geometry: new ol.geom.LineString([[x, 0], [x, -8192]]),
+                geometry: new ol.geom.LineString([[x, 0], [x, -2048]]),
                 name: ""
             });
 
@@ -46,17 +46,17 @@ export class GridLayer implements GridModuleLayer {
         var gridX = ["B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"];
 
         for (var x = 0; x < 20; x++) {
-            var yC = -(x * 410) + 50;
+            var yC = -((x * 102) + 87)
 
             for (var y = 0; y < 20; y++) {
-                var xC = (y * 410) - 40;
+                var xC = (y * 102) + 92;
 
                 var yDisplay = y + 7;
                 var gridID = gridX[x] + " " + yDisplay;
                 gridPoints.push({ "cX": xC, "cY": yC, "GridID": gridID });
 
                 var gridNameFeature = new ol.Feature({
-                    geometry: new ol.geom.Point([xC + 205, yC - 205]),
+                    geometry: new ol.geom.Point([xC - 51, yC + 51]),
                     name: gridID
                 });
 
@@ -71,8 +71,8 @@ export class GridLayer implements GridModuleLayer {
 
         var fontSize = (14 / resolution) + 16;
 
-        if (resolution >= 16) {
-            fontSize = 8;
+        if (resolution >= 4) {
+            fontSize = 10;
         }
 
         return [

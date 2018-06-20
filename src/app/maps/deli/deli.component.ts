@@ -590,6 +590,9 @@ export class DeliComponent implements OnInit, AfterViewInit {
             })
         });
 
+        // console.log("Map size", this.map.getSize());
+        this.map.getView().fit(mapExtent, this.map.getSize());
+
         this.map.on('singleclick', function (evt) {
             console.log("Event", evt);
 
