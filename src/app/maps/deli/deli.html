@@ -1,6 +1,6 @@
 <p-toolbar>
     <div class="ui-toolbar-group-left">
-        <button pButton type="button" (click)="visibleSidebar1 = true" icon="fa-arrow-left"></button>
+        <button pButton type="button" (click)="visibleSidebar1 = true" icon="fa-gear"></button>
         <span class="toolbar-header">Deliverance Community Map 2.3</span>
     </div>
 
@@ -23,6 +23,9 @@
     <p class="layer-toggle" (click)="toggleLayer($event, 'Canal Layer')">
         <i class="fa fa-ship fa-2x" [ngClass]="{ 'layer-selected': showCanals }"></i>Canals/(T)unnels
     </p>
+    <p class="layer-toggle" (click)="toggleLayer($event, 'Highway Layer')">
+        <i class="fa fa-road fa-2x" [ngClass]="{ 'layer-selected': showCanals }"></i>(H)ighway
+    </p>
     <p class="layer-toggle" (click)="toggleLayer($event, 'Grid Layer')">
         <i class="fa fa-th fa-2x" [ngClass]="{ 'layer-selected': showGrid }"></i>(G)rid
     </p>
@@ -41,27 +44,6 @@
         <button pButton label="Routes" (click)="mainLayer(9)" title="View routes layer">
         </button>
     </p>
-
-
-    <!-- <h6>2017 Aug Layers</h6>
-    <p>
-        <button pButton label="Terr" (click)="mainLayer(3)" title="View terrain layer">
-        </button>
-        <button pButton label="Iso" (click)="mainLayer(4)" title="View isometric layer">
-        </button>
-        <button pButton label="Topo" (click)="mainLayer(5)" title="View topological layer">
-        </button>
-    </p>
-
-    <h6>2016 Nov Layers</h6>
-    <p>
-        <button pButton label="Terr" (click)="mainLayer(0)" title="View terrain layer">
-        </button>
-        <button pButton label="Iso" (click)="mainLayer(1)" title="View isometric layer">
-        </button>
-        <button pButton label="Topo" (click)="mainLayer(2)" title="View topological layer">
-        </button>
-    </p> -->
 
     <h6>Find a Deed</h6>
     <p>

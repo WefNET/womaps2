@@ -34,12 +34,12 @@ export class HighwayLayer implements HighwayModuleLayer {
         return [
             new ol.style.Style({
                 stroke: new ol.style.Stroke({
-                    color: "rgba(255, 255, 0, 0.5)",
-                    width: 3
+                    color: "rgba(255, 255, 0, 0.4)",
+                    width: 2 / resolution
                 }),
-                fill: new ol.style.Fill({
-                    color: 'rgba(0, 0, 255, 0.1)'
-                }),
+                // fill: new ol.style.Fill({
+                //     color: 'rgba(0, 0, 255, 0.1)'
+                // }),
                 text: new ol.style.Text({
                     font: '14px Calibri,sans-serif',
                     text: name,

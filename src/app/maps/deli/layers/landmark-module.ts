@@ -27,7 +27,7 @@ export class LandmarkLayer implements LandmarkModuleLayer {
     styleFunction(feature, resolution) {
         console.log("Reso", resolution);
         var type = feature.get('type');
-        let fontSize: number = 12 / resolution + 12;
+        let fontSize: number = 12 / resolution;
 
         let style;
 

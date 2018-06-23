@@ -40,7 +40,7 @@ export class ICanal {
     Y2: number;
     Name: string;
     IsCanal: boolean;
-    IsTunnel: boolean;            
+    IsTunnel: boolean;
     AllBoats: boolean;
     Notes: string;
 }
@@ -57,7 +57,7 @@ export class ILandmark {
     Name: string;
     X1: number;
     Y1: number;
-    LandmarkType: string;    
+    LandmarkType: string;
     Notes: string;
 }
 
@@ -75,6 +75,7 @@ export class Constants {
     LandmarkLayerName: string = "Landmark Layer";
     CanalLayerName: string = "Canal Layer";
     BridgeLayerName: string = "Bridge Layer";
+    HighwayLayerName: string = "Highway Layer";
     Nov16TerrainLayerName: string = "Terrain (2016 Nov)";
     Nov16IsoLayerName: string = "Isometric (2016 Nov)";
     Nov16TopoLayerName: string = "Topological (2016 Nov)";
@@ -97,7 +98,7 @@ export class Constants {
     });
 }
 
-export var CustomColors =  [
+export var CustomColors = [
     {
         code: "rgba(255, 0, 0, 0.4)",
         name: "Red (Default)"

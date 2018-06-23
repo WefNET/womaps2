@@ -49,22 +49,22 @@ export class CanalLayer implements CanalModuleLayer {
         return [
             new ol.style.Style({
                 stroke: new ol.style.Stroke({
-                    width: 11 / resolution,
+                    width: 4 / resolution,
                     color: "rgba(0, 191, 255, 0.4)",
                 }),
                 text: new ol.style.Text({
                     font: '' + fontSize + 'px Calibri,sans-serif',
-                    text: resolution < 8 ? canalText : '',
+                    text: resolution < 2 ? canalText : '',
                     textBaseline: 'middle',
                     textAlign: 'center',
-                    // offsetY: 12,
                     fill: new ol.style.Fill({
-                        // color: '#FFF'
-                        color: "White"
+                        color: "rgb(255, 255, 0)",
                     }),
                     stroke: new ol.style.Stroke({
-                        color: 'Black',
-                        width: 1
+                        color: "rgb(102, 102, 102)",
+                        width: 1,
+                        offsetY: 1,
+                        offsetX: 2
                     })
                 })
             }),

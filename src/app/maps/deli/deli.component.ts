@@ -96,6 +96,7 @@ export class DeliComponent implements OnInit, AfterViewInit {
     showStartingDeeds: boolean = true;
     showCanals: boolean = true;
     showBridges: boolean = true;
+    showHighway: boolean = true;
 
     dFill: any = this.constants.defaultTextFill;
     dText: any = this.constants.defaultTextStroke;
@@ -170,6 +171,11 @@ export class DeliComponent implements OnInit, AfterViewInit {
         // t or T
         if (event.keyCode === 116 || event.keyCode === 84) {
             this.toggleLayer(null, this.constants.CanalLayerName);
+        }
+
+        // h or H
+        if (event.keyCode === 104 || event.keyCode === 72) {
+            this.toggleLayer(null, this.constants.HighwayLayerName);
         }
     }
 
@@ -351,7 +357,7 @@ export class DeliComponent implements OnInit, AfterViewInit {
 
         this.highwayLayer = new ol.layer.Vector({
             source: highwayMod.generateSource(this.roads),
-            name: "Highways",
+            name: this.constants.HighwayLayerName,
             style: highwayMod.styleFunction
         })
 
@@ -456,54 +462,6 @@ export class DeliComponent implements OnInit, AfterViewInit {
             minZoom: mapMinZoom,
             resolutions: mapResolutions
         });
-
-        // this.oldTerrainRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/terra/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16TerrainLayerName,
-        // });
-
-        // this.oldIsoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/iso/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16IsoLayerName,
-        // });
-
-        // this.oldTopoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1611/topo/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.Nov16TopoLayerName,
-        // });
-
-        // this.newTerrainRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/terrain/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.TerrainLayerName,
-        // });
-
-        // this.newIsoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/iso/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.IsoLayerName,
-        // });
-
-        // this.newTopoRaster = new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: "http://jackswurmtools.com/Content/tiles/xan-1708/topo/{z}/{x}/{y}.png",
-        //         tileGrid: mapTileGrid,
-        //     }),
-        //     name: this.constants.TopoLayerName,
-        // });
 
         this.Jan18IsoRaster = new ol.layer.Tile({
             source: new ol.source.XYZ({
@@ -724,6 +682,12 @@ export class DeliComponent implements OnInit, AfterViewInit {
                         this.showBridges = false;
                         break;
                     }
+                case this.constants.HighwayLayerName:
+                    {
+                        this.map.removeLayer(this.highwayLayer);
+                        this.showHighway = false;
+                        break;
+                    }
                 default: {
                     console.log("Layer name not found for removal process.", layerName);
                 }
@@ -759,6 +723,12 @@ export class DeliComponent implements OnInit, AfterViewInit {
                     {
                         this.map.addLayer(this.bridgeLayer);
                         this.showBridges = true;
+                        break;
+                    }
+                case this.constants.HighwayLayerName:
+                    {
+                        this.map.addLayer(this.highwayLayer);
+                        this.showHighway = true;
                         break;
                     }
                 default: {
@@ -808,24 +778,6 @@ export class DeliComponent implements OnInit, AfterViewInit {
     mainLayer(id: number) {
         this.hideAllLayers();
 
-        // if (id === 0) {
-        //     this.oldTerrainRaster.setVisible(true);
-        //     this.currentRaster = this.constants.Nov16TerrainLayerName;
-        // } else if (id === 1) {
-        //     this.oldIsoRaster.setVisible(true);
-        //     this.currentRaster = this.constants.Nov16IsoLayerName;
-        // } else if (id === 2) {
-        //     this.oldTopoRaster.setVisible(true);
-        //     this.currentRaster = this.constants.Nov16TopoLayerName;
-        // } else if (id === 3) {
-        //     this.newTerrainRaster.setVisible(true);
-        //     this.currentRaster = this.constants.TerrainLayerName;
-        // } else if (id === 4) {
-        //     this.newIsoRaster.setVisible(true);
-        //     this.currentRaster = this.constants.IsoLayerName;
-        // } else if (id === 5) {
-        //     this.newTopoRaster.setVisible(true);
-        //     this.currentRaster = this.constants.TopoLayerName;
         if (id === 6) {
             this.Jan18TerrainRaster.setVisible(true);
             this.currentRaster = this.constants.Jan18TerrainLayerName;
@@ -843,12 +795,6 @@ export class DeliComponent implements OnInit, AfterViewInit {
     }
 
     hideAllLayers() {
-        // this.newIsoRaster.setVisible(false);
-        // this.newTopoRaster.setVisible(false);
-        // this.newTerrainRaster.setVisible(false);
-        // this.oldTerrainRaster.setVisible(false);
-        // this.oldIsoRaster.setVisible(false);
-        // this.oldTopoRaster.setVisible(false);
         this.Jan18IsoRaster.setVisible(false);
         this.Jan18TerrainRaster.setVisible(false);
         this.Jan18TopoRaster.setVisible(false);

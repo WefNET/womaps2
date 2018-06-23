@@ -2,7 +2,7 @@ declare var ol: any;
 
 var startingTowns = [
     {
-        "Name": "Greendog",
+        "Name": "Green Dog",
         "Coords": [[630, -1079], [630, -1120], [670, -1120], [670, -1079]]
     },
 ];
